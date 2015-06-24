@@ -31,7 +31,7 @@ namespace DS.Web.UCenter
             }
             foreach (DictionaryEntry entry in Data)
             {
-                sb.AppendFormat(htmlOn ? "<item id=\"{0}\"><![CDATA[{1}]]></item>\r\n" : "<item id=\"{0}\">{1}</item>\r\n", entry.Key, ((T)entry.Value).ToString(false));
+                sb.AppendFormat(htmlOn ? "<item id=\"{0}\"><![CDATA[{1}]]></item>\r\n" : "<item id=\"{0}\">{1}</item>\r\n", entry.Key, entry.Value is T ? ((T)entry.Value).ToString(false) : entry.Value.ToString());
             }
             if (isRoot)
             {
