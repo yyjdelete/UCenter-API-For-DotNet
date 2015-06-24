@@ -54,6 +54,13 @@ namespace DS.Web.UCenter.Client
         /// 如果只修改 Email 不修改密码，可让 newpw 为空；
         /// 同理如果只修改密码不修改 Email，可让 email 为空。
         /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <param name="oldPw">旧密码</param>
+        /// <param name="newPw">新密码</param>
+        /// <param name="email">Email</param>
+        /// <param name="ignoreOldPw">是否忽略旧密码</param>
+        /// <param name="questionId">密码提示问题编号</param>
+        /// <param name="answer">密码提示问题答案</param>
         /// <returns></returns>
         UcUserEdit UserEdit(string userName, string oldPw, string newPw, string email, bool ignoreOldPw = false, int questionId = 0, string answer = "");
 
