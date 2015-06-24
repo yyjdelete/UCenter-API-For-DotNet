@@ -50,6 +50,7 @@
     <Compile Include="Api\UcActions.cs" />
     <Compile Include="Api\UcRequestArguments.cs" />
     <Compile Include="Client\IUcClient.cs" />
+    <Compile Include="Client\IUcClientAsync.cs" />
     <Compile Include="Client\UcClient.cs" />
     <Compile Include="Client\UcModelName.cs" />
     <Compile Include="Client\UcClientBase.cs" />
