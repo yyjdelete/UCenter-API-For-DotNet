@@ -396,6 +396,7 @@ namespace DS.Web.UCenter
             return (datetime.Ticks - timeStamp.Ticks) / 10000000;
         }
 
+        private static readonly Random random = new Random();
 
         /// <summary>
         /// 随机字节数组
@@ -413,7 +414,6 @@ namespace DS.Web.UCenter
                         };
             var length = chArray.Length;
             var result = new byte[lens];
-            var random = new Random();
             for (var i = 0; i < lens; i++)
             {
                 result[i] = (byte)chArray[random.Next(length)];
