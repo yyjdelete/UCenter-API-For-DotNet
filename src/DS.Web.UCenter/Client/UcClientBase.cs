@@ -22,8 +22,8 @@ namespace DS.Web.UCenter.Client
         /// <returns></returns>
         protected string GetInput(IDictionary<string, string> args)
         {
-            args.Add("agent", UcUtility.Md5(GetUserAgent()));
-            args.Add("time", UcUtility.PhpTimeNow().ToString());
+            args["agent"] = UcUtility.Md5(GetUserAgent());
+            args["time"] = UcUtility.PhpTimeNow().ToString();
             return UcUtility.PhpUrlEncode((UcUtility.AuthCodeEncode(ArgsToString(args))));
         }
 
