@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web;
-using System.Web.SessionState;
 
 namespace DS.Web.UCenter.Api
 {
@@ -12,7 +11,7 @@ namespace DS.Web.UCenter.Api
     /// http://www.dozer.cc
     /// mailto:dozer.cc@gmail.com
     /// </summary>
-    public abstract class UcApiBase : IHttpHandler, IRequiresSessionState
+    public abstract class UcApiBase : IHttpHandler
     {
         /// <summary>
         /// 
