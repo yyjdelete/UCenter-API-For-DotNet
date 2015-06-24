@@ -132,6 +132,10 @@ namespace DS.Web.UCenter.Api
             {
                 updateCreditSettings(Args, Response);
             }
+            else
+            {
+                Response.writeForbidden();
+            }
         }
         #endregion
 

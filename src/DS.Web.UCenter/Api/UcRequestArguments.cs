@@ -55,7 +55,7 @@ namespace DS.Web.UCenter.Api
             Action = QueryString["action"];
             long time;
             if (long.TryParse(QueryString["time"], out time)) Time = time;
-            IsInvalidRequest = request.QueryString.Count == 0 || !UcActions.Contains(Action);
+            IsInvalidRequest = request.QueryString.Count == 0;
             IsAuthracationExpiried = (UcUtility.PhpTimeNow() - Time) > 0xe10;
         }
     }
