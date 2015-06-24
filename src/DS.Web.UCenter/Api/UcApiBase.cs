@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.SessionState;
 
@@ -30,7 +31,21 @@ namespace DS.Web.UCenter.Api
             var Request = context.Request;
             var Args = new UcRequestArguments(Request);
             if (!check(Args, Response)) return;
-            switchAction(Args, Response);
+            try
+            {
+                switchAction(Args, Response);
+            }
+            catch (Exception e)
+            {
+                if (e is NotImplementedException || e is NotSupportedException)
+                {
+                    Response.writeForbidden();
+                }
+                else
+                {
+                    Response.writeEnd(ApiReturn.Failed);
+                }
+            }
         }
 
         #region 私有
