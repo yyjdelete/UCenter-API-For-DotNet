@@ -3,14 +3,14 @@
   <Class Name="DS.Web.UCenter.Api.UcActions" Collapsed="true">
     <Position X="3.5" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAABAAEgCEiAAEgAAAAAABAAAAAQAAAAAACAAwEAQ=</HashCode>
+      <HashCode>IAAAABAAEgCEgAAEgAAAAAABAAAAAQAAAAAACAAgEAQ=</HashCode>
       <FileName>Api\UcActions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DS.Web.UCenter.Api.UcApiBase" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="5.25" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAADCFFgDcgQAMgBAAAAABAgQAgYAIgCAQAgQkEAQ=</HashCode>
+      <HashCode>IAAAADCBNgCcgQAMgBAAAAABAgQABQAIgCAQAgQgEAQ=</HashCode>
       <FileName>Api\UcApiBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -18,7 +18,7 @@
   <Class Name="DS.Web.UCenter.Api.UcRequestArguments" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="7" Y="11.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAIAAgAAABAAAAAAAAAAAAAAAIAQQ=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAIAAgAACBAAAAACAAAAAAAAAIAQQ=</HashCode>
       <FileName>Api\UcRequestArguments.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -26,7 +26,7 @@
   <Class Name="DS.Web.UCenter.Client.UcClient">
     <Position X="30.75" Y="7.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>HAUJAAAgILgAAQRIAMUgAoICMiAkA1AACAiA4EAEgAA=</HashCode>
+      <HashCode>HAUBAAAgILkAAQQIgMUiAgJCNgEkCVAACAaA4EAAgAA=</HashCode>
       <FileName>Client\UcClient.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -34,7 +34,7 @@
   <Class Name="DS.Web.UCenter.Client.UcClientBase">
     <Position X="28.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQQAAAAAAAAAgAEAAAACAAAAAAAACgIAAAAAAAAAEAA=</HashCode>
+      <HashCode>AQQAQAAABAAAgAkAAAACEAAACAACCgoABAAAAAAgEAI=</HashCode>
       <FileName>Client\UcClientBase.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -97,14 +97,14 @@
   <Class Name="DS.Web.UCenter.UcUtility" Collapsed="true">
     <Position X="1.75" Y="13.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACACAaoAgABIAAgAAAAIAAAABAAAQCACQgAAAAAAUAA=</HashCode>
+      <HashCode>ACACASoAgABIAAgAAEAIAAAABABAQCACQgQAACACUAA=</HashCode>
       <FileName>UcUtility.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DS.Web.UCenter.UcConfig" Collapsed="true">
     <Position X="8.75" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAJIQIgCCAAFSEiAAAEEBBAAAAghKCAQAAARhA=</HashCode>
+      <HashCode>AAAAAAAJIQIgCCACFSEiAAAEEBBAAAAghKCAQAAARhA=</HashCode>
       <FileName>UcConfig.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -195,7 +195,7 @@
   <Class Name="DS.Web.UCenter.DictionaryExtension" Collapsed="true">
     <Position X="1.75" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AACAAAggAAAAAAAAAAAABAAAAAAEAAAAAAAAAACAAAA=</HashCode>
+      <HashCode>AACAAAggAAAAAAAgAAAABAAAAAAEAAAAAAABAACAAAA=</HashCode>
       <FileName>Model\IDictionaryExtension.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -402,17 +402,10 @@
       <FileName>Api\IUcRequestArguments.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="DS.Web.UCenter.Client.IUcClient" Collapsed="true">
-    <Position X="24.25" Y="9.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>HAUJAAAgILgAAQRIAMUgAoICMiAkAUAACACA4EAAgAA=</HashCode>
-      <FileName>Client\IUcClient.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Enum Name="DS.Web.UCenter.Api.ApiReturn" Collapsed="true">
     <Position X="12.25" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAABAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAiAAAAAAABAAAAAAAAA=</HashCode>
       <FileName>Api\UcApiBase.cs</FileName>
     </TypeIdentifier>
   </Enum>
