@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+#if NET4_5
+using System.Net.Http;
+using System.Threading.Tasks;
+#endif
 
 namespace DS.Web.UCenter.Client
 {
@@ -195,5 +199,78 @@ namespace DS.Web.UCenter.Client
         {
             return UcUtility.GetUserAgent();
         }
+
+#if NET4_5
+        private static HttpClient httpClient;
+        private HttpClient HttpClient
+        {
+            get
+            {
+                if (httpClient == null)
+                {
+                    httpClient = new HttpClient();
+                }
+                return httpClient;
+            }
+        }
+
+        /// <summary>
+        /// (异步)发送参数
+        /// </summary>
+        /// <param name="args">参数</param>
+        /// <param name="model">Model</param>
+        /// <param name="action">Action</param>
+        /// <returns></returns>
+        protected Task<string> SendArgsAsync(IDictionary<string, string> args, string model, string action)
+        {
+            return SendPostAsync(GetArgsString(args, model, action));
+        }
+
+        /// <summary>
+        /// (异步)发送表单并得到返回的字符串数据
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private async Task<string> SendPostAsync(string args)
+        {
+            var request = await getPostRequestAsync(args);
+            return (await getStrAsync(request)).Trim();
+        }
+
+        /// <summary>
+        /// (异步)发送Get
+        /// </summary>
+        /// <param name="url">地址</param>
+        /// <param name="args">参数</param>
+        /// <returns></returns>
+        protected async Task<string> SendGetAsync(string url, IEnumerable<KeyValuePair<string, string>> args)
+        {
+            var request = await getGetRequestAsync(new Uri(url + "?" + ArgsToString(args)));
+            return (await getStrAsync(request)).Trim();
+        }
+        private Task<HttpResponseMessage> getPostRequestAsync(string data)
+        {
+            return HttpClient.PostAsync(GetUrl(),
+                new StringContent(data, UcConfig.UcEncoding,
+                "application/x-www-form-urlencoded"));
+        }
+
+        private Task<HttpResponseMessage> getGetRequestAsync(Uri uri)
+        {
+            return HttpClient.GetAsync(uri);
+        }
+
+        private async Task<String> getStrAsync(HttpResponseMessage response)
+        {
+            try
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch
+            {
+                return "";
+            }
+        }
+#endif
     }
 }
