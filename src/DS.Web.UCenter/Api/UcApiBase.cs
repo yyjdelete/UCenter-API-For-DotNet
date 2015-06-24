@@ -155,7 +155,7 @@ namespace DS.Web.UCenter.Api
         private void synLogin(IUcRequestArguments Args, HttpResponse Response)
         {
             if (!UcConfig.ApiSynLogin) Response.writeForbidden();
-            Response.Headers.Add("P3P", "CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\"");
+            Response.AppendHeader("P3P", "CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\"");
             int uid;
             int.TryParse(Args.QueryString["uid"], out uid);
             Response.writeEnd(SynLogin(uid));
@@ -163,7 +163,7 @@ namespace DS.Web.UCenter.Api
         private void synLogout(IUcRequestArguments Args, HttpResponse Response)
         {
             if (!UcConfig.ApiSynLogout) Response.writeForbidden();
-            Response.Headers.Add("P3P", "CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\"");
+            Response.AppendHeader("P3P", "CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\"");
             Response.writeEnd(SynLogout());
         }
         private void updatePw(IUcRequestArguments Args, HttpResponse Response)
