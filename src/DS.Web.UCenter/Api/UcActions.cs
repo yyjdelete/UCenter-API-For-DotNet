@@ -1,11 +1,10 @@
+using System;
 using System.Collections.Generic;
 
 namespace DS.Web.UCenter.Api
 {
     internal static class UcActions
     {
-        private static readonly IList<string> Items;
-
         /// <summary>
         /// 此接口供仅测试连接。当 UCenter 发起 test 的接口请求时，
         /// 如果成功获取到接口返回的 API_RETURN_SUCCEED 值，表示 UCenter 和应用通讯正常。
@@ -95,38 +94,6 @@ namespace DS.Web.UCenter.Api
         /// 输入的参数 $get['uid'] 为用户 ID，$get['credit'] 为积分编号。接口运行完毕输出积分值。
         /// </summary>
         public static string GetCredit { get { return "getcredit"; } }
-
-        static UcActions()
-        {
-            Items = new List<string>
-                                  {
-                                      DeleteUser,
-                                      GetCreditSettings,
-                                      GetTag,
-                                      RenameUser,
-                                      SynLogin,
-                                      SynLogout,
-                                      Test,
-                                      UpdateApps,
-                                      UpdateBadWords,
-                                      UpdateClient,
-                                      UpdateCredit,
-                                      UpdateCreditSettings,
-                                      UpdateHosts,
-                                      UpdatePw,
-                                      GetCredit,
-                                  };
-        }
-
-        /// <summary>
-        /// 是否存在这个Action
-        /// </summary>
-        /// <param name="action">Action</param>
-        /// <returns></returns>
-        public static bool Contains(string action)
-        {
-            return Items.Contains(action.ToLower());
-        }
     }
 }
 

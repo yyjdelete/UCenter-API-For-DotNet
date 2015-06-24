@@ -14,9 +14,9 @@ namespace DS.Web.UCenter.Api
     public abstract class UcApiBase : IHttpHandler
     {
         /// <summary>
-        /// 
+        /// 如果子类的实现不是线程安全的请覆盖此方法
         /// </summary>
-        public bool IsReusable
+        public virtual bool IsReusable
         {
             get { return true; }
         }
@@ -53,9 +53,6 @@ namespace DS.Web.UCenter.Api
         }
 
         #region 私有
-        //private HttpResponse Response { get; set; }
-        //private HttpRequest Request { get; set; }
-        //private IUcRequestArguments Args { get; set; }
         /// <summary>
         /// 检查合法性
         /// </summary>
@@ -74,70 +71,53 @@ namespace DS.Web.UCenter.Api
             }
             return true;
         }
+
+        private static
+            IDictionary<string, Func<UcApiBase, IUcRequestArguments, HttpContext, ApiReturn>>
+            _actions;
+        /// <summary>
+        /// 子类可覆盖并添加父类及自己新加的静态方法到一个新的字典中, 不要修改父类返回结果
+        /// </summary>
+        /// <returns></returns>
+        protected virtual 
+            IDictionary<string, Func<UcApiBase, IUcRequestArguments, HttpContext, ApiReturn>>
+            GetActions()
+        {
+            if (_actions == null)
+            {
+                _actions = new Dictionary<string, Func<UcApiBase, IUcRequestArguments, HttpContext, ApiReturn>>
+                    (/*StringComparer.OrdinalIgnoreCase*/)
+                {
+                    {UcActions.Test, test},
+                    {UcActions.DeleteUser, deleteUser},
+                    {UcActions.RenameUser, renameUser},
+                    {UcActions.GetTag, getTag},
+                    {UcActions.SynLogin, synLogin},
+                    {UcActions.SynLogout, synLogout},
+                    {UcActions.UpdatePw, updatePw},
+                    {UcActions.UpdateBadWords, updateBadWords},
+                    {UcActions.UpdateHosts, updateHosts},
+                    {UcActions.UpdateApps, updateApps},
+                    {UcActions.UpdateClient, updateClient},
+                    {UcActions.UpdateCredit, updateCredit},
+                    {UcActions.GetCreditSettings, getCreditSettings},
+                    {UcActions.GetCredit, getCredit},
+                    {UcActions.UpdateCreditSettings, updateCreditSettings},
+                };
+
+            }
+            return _actions;
+        }
+
         private ApiReturn switchAction(IUcRequestArguments Args, HttpContext context)
         {
             //Maybe switch or 
             //IDictionary <string, Func<IUcRequestArguments, HttpContext, ApiReturn>> for extend
             ApiReturn res;
-            if (Args.Action == UcActions.Test)
+            Func<UcApiBase, IUcRequestArguments, HttpContext, ApiReturn> func;
+            if (GetActions().TryGetValue(Args.Action, out func))
             {
-                res = test(Args, context);
-            }
-            else if (Args.Action == UcActions.DeleteUser)
-            {
-                res = deleteUser(Args, context);
-            }
-            else if (Args.Action == UcActions.RenameUser)
-            {
-                res = renameUser(Args, context);
-            }
-            else if (Args.Action == UcActions.GetTag)
-            {
-                res = getTag(Args, context);
-            }
-            else if (Args.Action == UcActions.SynLogin)
-            {
-                res = synLogin(Args, context);
-            }
-            else if (Args.Action == UcActions.SynLogout)
-            {
-                res = synLogout(Args, context);
-            }
-            else if (Args.Action == UcActions.UpdatePw)
-            {
-                res = updatePw(Args, context);
-            }
-            else if (Args.Action == UcActions.UpdateBadWords)
-            {
-                res = updateBadWords(Args, context);
-            }
-            else if (Args.Action == UcActions.UpdateHosts)
-            {
-                res = updateHosts(Args, context);
-            }
-            else if (Args.Action == UcActions.UpdateApps)
-            {
-                res = updateApps(Args, context);
-            }
-            else if (Args.Action == UcActions.UpdateClient)
-            {
-                res = updateClient(Args, context);
-            }
-            else if (Args.Action == UcActions.UpdateCredit)
-            {
-                res = updateCredit(Args, context);
-            }
-            else if (Args.Action == UcActions.GetCreditSettings)
-            {
-                res = getCreditSettings(Args, context);
-            }
-            else if (Args.Action == UcActions.GetCredit)
-            {
-                res = getCredit(Args, context);
-            }
-            else if (Args.Action == UcActions.UpdateCreditSettings)
-            {
-                res = updateCreditSettings(Args, context);
+                res = func(this, Args, context);
             }
             else
             {
@@ -148,11 +128,11 @@ namespace DS.Web.UCenter.Api
         #endregion
 
         #region API实现
-        private ApiReturn test(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn test(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             return ApiReturn.Success;
         }
-        private ApiReturn deleteUser(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn deleteUser(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiDeleteUser)
                 return ApiReturn.Forbidden;
@@ -163,9 +143,9 @@ namespace DS.Web.UCenter.Api
                 int idInt;
                 if (int.TryParse(id, out idInt)) idArray.Add(idInt);
             }
-            return DeleteUser(idArray);
+            return apiContext.DeleteUser(idArray);
         }
-        private ApiReturn renameUser(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn renameUser(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiRenameUser)
                 return ApiReturn.Forbidden;
@@ -173,69 +153,69 @@ namespace DS.Web.UCenter.Api
             int.TryParse(Args.QueryString["uid"], out uid);
             var oldusername = Args.QueryString["oldusername"];
             var newusername = Args.QueryString["newusername"];
-            return RenameUser(uid, oldusername, newusername);
+            return apiContext.RenameUser(uid, oldusername, newusername);
         }
-        private ApiReturn getTag(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn getTag(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiGetTag)
                 return ApiReturn.Forbidden;
             var tagName = Args.QueryString["id"];
-            context.writeEnd(GetTag(tagName));
+            context.writeEnd(apiContext.GetTag(tagName));
             return ApiReturn.Nop;
         }
-        private ApiReturn synLogin(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn synLogin(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiSynLogin)
                 return ApiReturn.Forbidden;
             context.Response.AppendHeader("P3P", "CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\"");
             int uid;
             int.TryParse(Args.QueryString["uid"], out uid);
-            return SynLogin(uid);
+            return apiContext.SynLogin(uid);
         }
-        private ApiReturn synLogout(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn synLogout(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiSynLogout)
                 return ApiReturn.Forbidden;
             context.Response.AppendHeader("P3P", "CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\"");
-            return SynLogout();
+            return apiContext.SynLogout();
         }
-        private ApiReturn updatePw(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn updatePw(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdatePw)
                 return ApiReturn.Forbidden;
             var username = Args.QueryString["username"];
             var password = Args.QueryString["password"];
-            return UpdatePw(username, password);
+            return apiContext.UpdatePw(username, password);
         }
-        private ApiReturn updateBadWords(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn updateBadWords(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateBadWords)
                 return ApiReturn.Forbidden;
             var badWords = new UcBadWords(Args.FormData);
-            return UpdateBadWords(badWords);
+            return apiContext.UpdateBadWords(badWords);
         }
-        private ApiReturn updateHosts(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn updateHosts(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateHosts)
                 return ApiReturn.Forbidden;
             var hosts = new UcHosts(Args.FormData);
-            return UpdateHosts(hosts);
+            return apiContext.UpdateHosts(hosts);
         }
-        private ApiReturn updateApps(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn updateApps(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateApps)
                 return ApiReturn.Forbidden;
             var apps = new UcApps(Args.FormData);
-            return UpdateApps(apps);
+            return apiContext.UpdateApps(apps);
         }
-        private ApiReturn updateClient(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn updateClient(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateClient)
                 return ApiReturn.Forbidden;
             var client = new UcClientSetting(Args.FormData);
-            return UpdateClient(client);
+            return apiContext.UpdateClient(client);
         }
-        private ApiReturn updateCredit(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn updateCredit(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateCredit)
                 return ApiReturn.Forbidden;
@@ -245,16 +225,16 @@ namespace DS.Web.UCenter.Api
             int.TryParse(Args.QueryString["credit"], out credit);
             int amount;
             int.TryParse(Args.QueryString["amount"], out amount);
-            return UpdateCredit(uid, credit, amount);
+            return apiContext.UpdateCredit(uid, credit, amount);
         }
-        private ApiReturn getCreditSettings(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn getCreditSettings(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiGetCreditSettings)
                 return ApiReturn.Forbidden;
-            context.writeEnd(GetCreditSettings());
+            context.writeEnd(apiContext.GetCreditSettings());
             return ApiReturn.Nop;
         }
-        private ApiReturn getCredit(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn getCredit(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiGetCredit)
                 return ApiReturn.Forbidden;
@@ -262,14 +242,14 @@ namespace DS.Web.UCenter.Api
             int.TryParse(Args.QueryString["uid"], out uid);
             int credit;
             int.TryParse(Args.QueryString["credit"], out credit);
-            return GetCredit(uid, credit);
+            return apiContext.GetCredit(uid, credit);
         }
-        private ApiReturn updateCreditSettings(IUcRequestArguments Args, HttpContext context)
+        private static ApiReturn updateCreditSettings(UcApiBase apiContext, IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateCreditSettings)
                 return ApiReturn.Forbidden;
             var creditSettings = new UcCreditSettings(Args.FormData);
-            return UpdateCreditSettings(creditSettings);
+            return apiContext.UpdateCreditSettings(creditSettings);
         }
         #endregion
 
