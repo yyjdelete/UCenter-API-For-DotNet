@@ -40,6 +40,11 @@ namespace DS.Web.UCenter.Api
                 {
                     Response.writeForbidden();
                 }
+                else if (e is System.Threading.ThreadAbortException)
+                {
+                    //throw by Response.End, do not handle it
+                    throw;
+                }
                 else
                 {
                     Response.writeEnd(ApiReturn.Failed);
