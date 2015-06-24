@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace DS.Web.UCenter
 {
@@ -92,19 +93,19 @@ namespace DS.Web.UCenter
 
 
         /// <summary>
-        /// 得到Hashtable
+        /// 得到Dictionary
         /// </summary>
         /// <param name="data"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        static public Hashtable GetHashtable(this IDictionary data, string key)
+        static public IDictionary GetDictionary(this IDictionary data, string key)
         {
-            var result = default(Hashtable);
+            var result = default(IDictionary);
             object obj;
             if (TryGetRaw(data, key, out obj))
             {
-                if (obj is Hashtable)
-                    result = (Hashtable)obj;
+                if (obj is IDictionary)
+                    result = (IDictionary)obj;
             }
             return result;
         }
@@ -112,10 +113,18 @@ namespace DS.Web.UCenter
         private static bool TryGetRaw(this IDictionary dict, string key, out object result)
         {
             result = default(object);
-            if (dict != null && dict.Contains(key))
+            if (dict != null)
             {
-                result = dict[key];
-                return true;
+                IDictionary<string, object> genDict;
+                if ((genDict = dict as IDictionary<string, object>) != null)
+                {
+                    return genDict.TryGetValue(key, out result);
+                }
+                else if (dict.Contains(key))
+                {
+                    result = dict[key];
+                    return true;
+                }
             }
             return false;
         }

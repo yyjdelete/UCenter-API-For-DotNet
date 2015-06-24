@@ -59,9 +59,9 @@ namespace DS.Web.UCenter
             unSerialize(data, document.DocumentElement);
             foreach (DictionaryEntry root in data)
             {
-                if (root.Value is Hashtable)
+                if (root.Value is IDictionary)
                 {
-                    Data = (Hashtable)root.Value;
+                    Data = (IDictionary)root.Value;
                     break;
                 }
             }

@@ -37,11 +37,11 @@ namespace DS.Web.UCenter
 
             foreach (DictionaryEntry entry in item)
             {
-                if (entry.Value is Hashtable)
+                if (entry.Value is IDictionary)
                 {
                     sb
                         .Append("<item id=\"").Append(entry.Key).Append("\">").AppendLine()
-                        .AppendLine(serialize((Hashtable)entry.Value, htmlOn, false ))
+                        .AppendLine(serialize((IDictionary)entry.Value, htmlOn, false ))
                         .AppendLine("</item>");
                 }
                 else
