@@ -245,7 +245,7 @@
         /// </summary>
         Success = 1,
         /// <summary>
-        /// 没有做任何修改
+        /// 没有做任何修改(找不到用户数据)
         /// </summary>
         DoNotEdited = 0,
         /// <summary>
@@ -265,7 +265,7 @@
         /// </summary>
         EmailHasBeenRegistered = -6,
         /// <summary>
-        /// 没有做任何修改
+        /// 没有做任何修改(没有任何需要修改的内容)
         /// </summary>
         EditedNothing = -7,
         /// <summary>
