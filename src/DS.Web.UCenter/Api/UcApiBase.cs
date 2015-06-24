@@ -28,26 +28,28 @@ namespace DS.Web.UCenter.Api
         {
             var Args = new UcRequestArguments(context.Request);
             if (!check(Args, context)) return;
+            ApiReturn res;
             try
             {
-                switchAction(Args, context);
+                res = switchAction(Args, context);
             }
             catch (Exception e)
             {
                 if (e is NotImplementedException || e is NotSupportedException)
                 {
-                    context.writeForbidden();
+                    res = ApiReturn.Forbidden;
                 }
                 else if (e is System.Threading.ThreadAbortException)
                 {
-                    //throw by Response.End, do not handle it
+                    //may throw by inner Response.End, do not handle it
                     throw;
                 }
                 else
                 {
-                    context.writeEnd(ApiReturn.Failed);
+                    res = ApiReturn.Failed;
                 }
             }
+            context.writeEnd(res);
         }
 
         #region 私有
@@ -72,89 +74,88 @@ namespace DS.Web.UCenter.Api
             }
             return true;
         }
-        private void switchAction(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn switchAction(IUcRequestArguments Args, HttpContext context)
         {
             //Maybe switch or 
-            //IDictionary <string, Action<IUcRequestArguments, HttpContext>> for extend
+            //IDictionary <string, Func<IUcRequestArguments, HttpContext, ApiReturn>> for extend
+            ApiReturn res;
             if (Args.Action == UcActions.Test)
             {
-                test(Args, context);
+                res = test(Args, context);
             }
             else if (Args.Action == UcActions.DeleteUser)
             {
-                deleteUser(Args, context);
+                res = deleteUser(Args, context);
             }
             else if (Args.Action == UcActions.RenameUser)
             {
-                renameUser(Args, context);
+                res = renameUser(Args, context);
             }
             else if (Args.Action == UcActions.GetTag)
             {
-                getTag(Args, context);
+                res = getTag(Args, context);
             }
             else if (Args.Action == UcActions.SynLogin)
             {
-                synLogin(Args, context);
+                res = synLogin(Args, context);
             }
             else if (Args.Action == UcActions.SynLogout)
             {
-                synLogout(Args, context);
+                res = synLogout(Args, context);
             }
             else if (Args.Action == UcActions.UpdatePw)
             {
-                updatePw(Args, context);
+                res = updatePw(Args, context);
             }
             else if (Args.Action == UcActions.UpdateBadWords)
             {
-                updateBadWords(Args, context);
+                res = updateBadWords(Args, context);
             }
             else if (Args.Action == UcActions.UpdateHosts)
             {
-                updateHosts(Args, context);
+                res = updateHosts(Args, context);
             }
             else if (Args.Action == UcActions.UpdateApps)
             {
-                updateApps(Args, context);
+                res = updateApps(Args, context);
             }
             else if (Args.Action == UcActions.UpdateClient)
             {
-                updateClient(Args, context);
+                res = updateClient(Args, context);
             }
             else if (Args.Action == UcActions.UpdateCredit)
             {
-                updateCredit(Args, context);
+                res = updateCredit(Args, context);
             }
             else if (Args.Action == UcActions.GetCreditSettings)
             {
-                getCreditSettings(Args, context);
+                res = getCreditSettings(Args, context);
             }
             else if (Args.Action == UcActions.GetCredit)
             {
-                getCredit(Args, context);
+                res = getCredit(Args, context);
             }
             else if (Args.Action == UcActions.UpdateCreditSettings)
             {
-                updateCreditSettings(Args, context);
+                res = updateCreditSettings(Args, context);
             }
             else
             {
-                context.writeForbidden();
+                res = ApiReturn.Forbidden;
             }
+            return res;
         }
         #endregion
 
         #region API实现
-        private void test(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn test(IUcRequestArguments Args, HttpContext context)
         {
-            context.writeEnd(UcConfig.ApiReturnSucceed);
+            return ApiReturn.Success;
         }
-        private void deleteUser(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn deleteUser(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiDeleteUser)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             var ids = Args.QueryString["ids"];
             var idArray = new List<int>();
             foreach (var id in ids.Split(','))
@@ -162,150 +163,113 @@ namespace DS.Web.UCenter.Api
                 int idInt;
                 if (int.TryParse(id, out idInt)) idArray.Add(idInt);
             }
-            context.writeEnd(DeleteUser(idArray));
+            return DeleteUser(idArray);
         }
-        private void renameUser(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn renameUser(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiRenameUser)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             int uid;
             int.TryParse(Args.QueryString["uid"], out uid);
             var oldusername = Args.QueryString["oldusername"];
             var newusername = Args.QueryString["newusername"];
-            context.writeEnd(RenameUser(uid, oldusername, newusername));
+            return RenameUser(uid, oldusername, newusername);
         }
-        private void getTag(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn getTag(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiGetTag)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             var tagName = Args.QueryString["id"];
             context.writeEnd(GetTag(tagName));
+            return ApiReturn.Nop;
         }
-        private void synLogin(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn synLogin(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiSynLogin)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             context.Response.AppendHeader("P3P", "CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\"");
             int uid;
             int.TryParse(Args.QueryString["uid"], out uid);
-            context.writeEnd(SynLogin(uid));
+            return SynLogin(uid);
         }
-        private void synLogout(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn synLogout(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiSynLogout)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             context.Response.AppendHeader("P3P", "CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\"");
-            context.writeEnd(SynLogout());
+            return SynLogout();
         }
-        private void updatePw(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn updatePw(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdatePw)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             var username = Args.QueryString["username"];
             var password = Args.QueryString["password"];
-            context.writeEnd(UpdatePw(username, password));
+            return UpdatePw(username, password);
         }
-        private void updateBadWords(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn updateBadWords(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateBadWords)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             var badWords = new UcBadWords(Args.FormData);
-            context.writeEnd(UpdateBadWords(badWords));
+            return UpdateBadWords(badWords);
         }
-        private void updateHosts(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn updateHosts(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateHosts)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             var hosts = new UcHosts(Args.FormData);
-            context.writeEnd(UpdateHosts(hosts));
+            return UpdateHosts(hosts);
         }
-        private void updateApps(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn updateApps(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateApps)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             var apps = new UcApps(Args.FormData);
-            context.writeEnd(UpdateApps(apps));
+            return UpdateApps(apps);
         }
-        private void updateClient(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn updateClient(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateClient)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             var client = new UcClientSetting(Args.FormData);
-            context.writeEnd(UpdateClient(client));
+            return UpdateClient(client);
         }
-        private void updateCredit(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn updateCredit(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateCredit)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             int uid;
             int.TryParse(Args.QueryString["uid"], out uid);
             int credit;
             int.TryParse(Args.QueryString["credit"], out credit);
             int amount;
             int.TryParse(Args.QueryString["amount"], out amount);
-            context.writeEnd(UpdateCredit(uid, credit, amount));
+            return UpdateCredit(uid, credit, amount);
         }
-        private void getCreditSettings(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn getCreditSettings(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiGetCreditSettings)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             context.writeEnd(GetCreditSettings());
+            return ApiReturn.Nop;
         }
-        private void getCredit(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn getCredit(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiGetCredit)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             int uid;
             int.TryParse(Args.QueryString["uid"], out uid);
             int credit;
             int.TryParse(Args.QueryString["credit"], out credit);
-            context.writeEnd(GetCredit(uid, credit));
+            return GetCredit(uid, credit);
         }
-        private void updateCreditSettings(IUcRequestArguments Args, HttpContext context)
+        private ApiReturn updateCreditSettings(IUcRequestArguments Args, HttpContext context)
         {
             if (!UcConfig.ApiUpdateCreditSettings)
-            {
-                context.writeForbidden();
-                return;
-            }
+                return ApiReturn.Forbidden;
             var creditSettings = new UcCreditSettings(Args.FormData);
-            context.writeEnd(UpdateCreditSettings(creditSettings));
+            return UpdateCreditSettings(creditSettings);
         }
         #endregion
 
@@ -423,7 +387,21 @@ namespace DS.Web.UCenter.Api
         }
         public static void writeEnd(this HttpContext context, ApiReturn result)
         {
-            var msg = result == ApiReturn.Success ? UcConfig.ApiReturnSucceed : UcConfig.ApiReturnFailed;
+            string msg;
+            switch (result) {
+                case ApiReturn.Success:
+                    msg = UcConfig.ApiReturnSucceed;
+                    break;
+                case ApiReturn.Failed:
+                    msg = UcConfig.ApiReturnFailed;
+                    break;
+                case ApiReturn.Nop:
+                    return;
+                default:
+                case ApiReturn.Forbidden:
+                    msg = UcConfig.ApiReturnFailed;
+                    break;
+            }
             writeEnd(context, msg);
         }
         public static void writeForbidden(this HttpContext context)
@@ -445,6 +423,14 @@ namespace DS.Web.UCenter.Api
         /// 成功
         /// </summary>
         Success,
+        /// <summary>
+        /// 禁止
+        /// </summary>
+        Forbidden,
+        /// <summary>
+        /// 指示已处理, 但不做输出(常用于输出自定义类型)
+        /// </summary>
+        Nop,
     }
 }
 
