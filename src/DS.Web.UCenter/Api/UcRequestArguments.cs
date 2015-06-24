@@ -66,9 +66,11 @@ namespace DS.Web.UCenter.Api
             //FormData = HttpUtility.UrlDecode(request.Form.ToString(), UcConfig.UcEncoding);
             QueryString = HttpUtility.ParseQueryString(UcUtility.AuthCodeDecode(Code));
             Action = QueryString["action"];
+            if (Action != null)
+                Action = Action.ToLowerInvariant();
             long time;
             if (long.TryParse(QueryString["time"], out time)) Time = time;
-            IsInvalidRequest = request.QueryString.Count == 0;
+            IsInvalidRequest = request.QueryString.Count == 0 || Action == null;
             IsAuthracationExpiried = (UcUtility.PhpTimeNow() - Time) > 0xe10;
         }
     }
