@@ -13,6 +13,10 @@ namespace DS.Web.UCenter.Client
     /// </summary>
     public class UcClient : UcClientBase, IUcClient
     {
+        /// <summary>
+        /// 黑名单中"所有人"的标识
+        /// </summary>
+        protected static readonly string[] ALL = new string[] { "{ALL}" };
         #region UserModel
         /// <summary>
         /// 用户注册
@@ -526,7 +530,7 @@ namespace DS.Web.UCenter.Client
         /// <returns></returns>
         public bool PmBlacklsSetAll(int uid)
         {
-            return PmBlacklsSet(uid, "{ALL}");
+            return PmBlacklsSet(uid, ALL);
         }
 
         /// <summary>
@@ -552,7 +556,7 @@ namespace DS.Web.UCenter.Client
         /// <returns></returns>
         public bool PmBlacklsAddAll(int uid)
         {
-            return PmBlacklsAdd(uid, "{ALL}");
+            return PmBlacklsAdd(uid, ALL);
         }
 
 
@@ -579,7 +583,7 @@ namespace DS.Web.UCenter.Client
         /// <returns></returns>
         public void PmBlacklsDeleteAll(int uid)
         {
-            PmBlacklsDelete(uid, "{ALL}");
+            PmBlacklsDelete(uid, ALL);
         }
 
         /// <summary>
@@ -712,7 +716,11 @@ namespace DS.Web.UCenter.Client
                                 {"uid" ,uid.ToString()}
                             };
             var input = GetInput(args);
-            var movie = string.Format("{0}images/camera.swf?inajax=1&appid={1}&input={2}&agent={3}&ucapi={4}&avatartype={5}", UcConfig.UcApi, UcConfig.UcAppid, input, UcUtility.Md5(UcUtility.GetUserAgent()), UcUtility.PhpUrlEncode(UcConfig.UcApi.Replace("http://", "")), type.ToString().ToLower());
+            var movie = UcConfig.UcApi + "images/camera.swf?inajax=1&appid=" + UcConfig.UcAppid +
+                "&input=" + input +
+                "&agent=" + UcUtility.Md5(UcUtility.GetUserAgent()) +
+                "&ucapi=" + UcUtility.PhpUrlEncode(UcConfig.UcApi.Replace("http://", "")) +
+                "&avatartype=" + type.ToString().ToLower();
             return getFlashPlayerCode(movie);
         }
 
@@ -725,8 +733,9 @@ namespace DS.Web.UCenter.Client
         /// <returns></returns>
         public string AvatarUrl(int uid,AvatarSize size,AvatarType type = AvatarType.Virtual)
         {
-            return string.Format("{0}avatar.php?uid={1}&type={2}&size={3}", UcConfig.UcApi, uid,
-                                 type.ToString().ToLower(), size.ToString().ToLower());
+            return UcConfig.UcApi + "avatar.php?uid=" + uid.ToString() +
+                "&type=" + type.ToString().ToLower() +
+                "&size=" + size.ToString().ToLower();
         }
 
         /// <summary>
@@ -916,17 +925,18 @@ namespace DS.Web.UCenter.Client
         private string getFlashPlayerCode(string movie)
         {
             var sb = new StringBuilder(1024);//815
-            sb.AppendLine("<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0\" width=\"447\" height=\"477\" id=\"mycamera\" align=\"middle\">");
-            sb.AppendLine("<param name=\"allowScriptAccess\" value=\"always\" />");
-            sb.AppendLine("<param name=\"scale\" value=\"exactfit\" />");
-            sb.AppendLine("<param name=\"wmode\" value=\"transparent\" />");
-            sb.AppendLine("<param name=\"quality\" value=\"high\" />");
-            sb.AppendLine("<param name=\"bgcolor\" value=\"#ffffff\" />");
-            sb.AppendLine("<param name=\"movie\" value=\"{0}\" />");
-            sb.AppendLine("<param name=\"menu\" value=\"false\" />");
-            sb.AppendLine("<embed src=\"{0}\" quality=\"high\" bgcolor=\"#ffffff\" width=\"447\" height=\"477\" name=\"mycamera\" align=\"middle\" allowScriptAccess=\"always\" allowFullScreen=\"false\" scale=\"exactfit\"  wmode=\"transparent\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" />");
-            sb.AppendLine("</object>");
-            return string.Format(sb.ToString(), movie);
+            sb
+                .AppendLine("<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0\" width=\"447\" height=\"477\" id=\"mycamera\" align=\"middle\">")
+                .AppendLine("<param name=\"allowScriptAccess\" value=\"always\" />")
+                .AppendLine("<param name=\"scale\" value=\"exactfit\" />")
+                .AppendLine("<param name=\"wmode\" value=\"transparent\" />")
+                .AppendLine("<param name=\"quality\" value=\"high\" />")
+                .AppendLine("<param name=\"bgcolor\" value=\"#ffffff\" />")
+                .Append("<param name=\"movie\" value=\"").Append(movie).AppendLine("\" />")
+                .AppendLine("<param name=\"menu\" value=\"false\" />")
+                .Append("<embed src=\"").Append(movie).AppendLine("\" quality=\"high\" bgcolor=\"#ffffff\" width=\"447\" height=\"477\" name=\"mycamera\" align=\"middle\" allowScriptAccess=\"always\" allowFullScreen=\"false\" scale=\"exactfit\"  wmode=\"transparent\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" />")
+                .AppendLine("</object>");
+            return sb.ToString();
         }
 
 
