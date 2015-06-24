@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -8,8 +8,8 @@ using System.Web;
 namespace DS.Web.UCenter
 {
     /// <summary>
-    /// Dozer °æÈ¨ËùÓĞ
-    /// ÔÊĞí¸´ÖÆ¡¢ĞŞ¸Ä£¬µ«Çë±£ÁôÎÒµÄÁªÏµ·½Ê½£¡
+    /// Dozer ç‰ˆæƒæ‰€æœ‰
+    /// å…è®¸å¤åˆ¶ã€ä¿®æ”¹ï¼Œä½†è¯·ä¿ç•™æˆ‘çš„è”ç³»æ–¹å¼ï¼
     /// http://www.dozer.cc
     /// mailto:dozer.cc@gmail.com
     /// </summary>
@@ -25,10 +25,10 @@ namespace DS.Web.UCenter
         /// <summary>
         /// AuthCode
         /// </summary>
-        /// <param name="sourceStr">Ô´×Ö·û´®</param>
-        /// <param name="operation">²Ù×÷</param>
+        /// <param name="sourceStr">æºå­—ç¬¦ä¸²</param>
+        /// <param name="operation">æ“ä½œ</param>
         /// <param name="keyStr">KEY</param>
-        /// <param name="expiry">¹ıÆÚÊ±¼ä</param>
+        /// <param name="expiry">è¿‡æœŸæ—¶é—´</param>
         /// <returns></returns>
         private static string authCode(string sourceStr, AuthCodeMethod operation, string keyStr, int expiry = 0)
         {
@@ -65,10 +65,10 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// Êı¾İÑéÖ¤
+        /// æ•°æ®éªŒè¯
         /// </summary>
         /// <param name="keyb">Keyb</param>
-        /// <param name="result">½á¹û</param>
+        /// <param name="result">ç»“æœ</param>
         /// <returns></returns>
         private static string check(byte[] keyb, byte[] result)
         {
@@ -83,11 +83,11 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// ¼ÆËã½á¹û
+        /// è®¡ç®—ç»“æœ
         /// </summary>
-        /// <param name="source">Êı¾İÔ´</param>
+        /// <param name="source">æ•°æ®æº</param>
         /// <param name="box">Box</param>
-        /// <param name="sourceLength">Êı¾İÔ´³¤¶È</param>
+        /// <param name="sourceLength">æ•°æ®æºé•¿åº¦</param>
         /// <returns></returns>
         private static byte[] getResult(IList<byte> source, IList<int> box, int sourceLength)
         {
@@ -106,7 +106,7 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// BoxÂÒĞò
+        /// Boxä¹±åº
         /// </summary>
         /// <param name="box"></param>
         /// <param name="rndkey"></param>
@@ -122,7 +122,7 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// µÃµ½RandomKey
+        /// å¾—åˆ°RandomKey
         /// </summary>
         /// <param name="cryptkey">cryptkey</param>
         /// <param name="keyLength">keyLength</param>
@@ -138,7 +138,7 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// µÃµ½Box
+        /// å¾—åˆ°Box
         /// </summary>
         /// <returns></returns>
         private static int[] getBox()
@@ -152,12 +152,12 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// µÃµ½CKey
+        /// å¾—åˆ°CKey
         /// </summary>
-        /// <param name="expiry">¹ıÆÚÊ±¼ä</param>
-        /// <param name="ckeyLength">CKey³¤¶È</param>
-        /// <param name="operation">²Ù×÷</param>
-        /// <param name="source">Êı¾İÔ´</param>
+        /// <param name="expiry">è¿‡æœŸæ—¶é—´</param>
+        /// <param name="ckeyLength">CKeyé•¿åº¦</param>
+        /// <param name="operation">æ“ä½œ</param>
+        /// <param name="source">æ•°æ®æº</param>
         /// <param name="keyb">Keyb</param>
         /// <returns></returns>
         private static byte[] getCKey(int expiry, int ckeyLength, AuthCodeMethod operation, byte[] source, byte[] keyb)
@@ -183,11 +183,11 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// µÃµ½keyc
+        /// å¾—åˆ°keyc
         /// </summary>
-        /// <param name="ckeyLength">ckey³¤¶È</param>
-        /// <param name="operation">²Ù×÷</param>
-        /// <param name="source">Êı¾İÔ´</param>
+        /// <param name="ckeyLength">ckeyé•¿åº¦</param>
+        /// <param name="operation">æ“ä½œ</param>
+        /// <param name="source">æ•°æ®æº</param>
         /// <returns></returns>
         private static byte[] getKeyc(int ckeyLength, AuthCodeMethod operation, byte[] source)
         {
@@ -200,18 +200,18 @@ namespace DS.Web.UCenter
 
 
         /// <summary>
-        /// UCenter ½âÂë
+        /// UCenter è§£ç 
         /// </summary>
-        /// <param name="str">×Ö·û´®</param>
+        /// <param name="str">å­—ç¬¦ä¸²</param>
         /// <returns></returns>
         public static string AuthCodeDecode(string str)
         {
             return authCode(str, AuthCodeMethod.Decode, UcConfig.UcKey);
         }
         /// <summary>
-        /// UCenter ½âÂë
+        /// UCenter è§£ç 
         /// </summary>
-        /// <param name="str">×Ö·û´®</param>
+        /// <param name="str">å­—ç¬¦ä¸²</param>
         /// <param name="key">UC KEY</param>
         /// <returns></returns>
         public static string AuthCodeDecode(string str, string key)
@@ -219,11 +219,11 @@ namespace DS.Web.UCenter
             return authCode(str, AuthCodeMethod.Decode, key);
         }
         /// <summary>
-        /// UCenter ½âÂë
+        /// UCenter è§£ç 
         /// </summary>
-        /// <param name="str">×Ö·û´®</param>
+        /// <param name="str">å­—ç¬¦ä¸²</param>
         /// <param name="key">UC KEY</param>
-        /// <param name="expiry">¹ıÆÚÊ±¼ä 0´ú±íÓÀ²»¹ıÆÚ</param>
+        /// <param name="expiry">è¿‡æœŸæ—¶é—´ 0ä»£è¡¨æ°¸ä¸è¿‡æœŸ</param>
         /// <returns></returns>
         public static string AuthCodeDecode(string str, string key, int expiry)
         {
@@ -232,18 +232,18 @@ namespace DS.Web.UCenter
 
 
         /// <summary>
-        /// UCenter ±àÂë
+        /// UCenter ç¼–ç 
         /// </summary>
-        /// <param name="str">×Ö·û´®</param>
+        /// <param name="str">å­—ç¬¦ä¸²</param>
         /// <returns></returns>
         public static string AuthCodeEncode(string str)
         {
             return authCode(str, AuthCodeMethod.Encode, UcConfig.UcKey);
         }
         /// <summary>
-        /// UCenter ±àÂë
+        /// UCenter ç¼–ç 
         /// </summary>
-        /// <param name="str">×Ö·û´®</param>
+        /// <param name="str">å­—ç¬¦ä¸²</param>
         /// <param name="key">UC KEY</param>
         /// <returns></returns>
         public static string AuthCodeEncode(string str, string key)
@@ -251,11 +251,11 @@ namespace DS.Web.UCenter
             return authCode(str, AuthCodeMethod.Encode, key);
         }
         /// <summary>
-        /// UCenter ±àÂë
+        /// UCenter ç¼–ç 
         /// </summary>
-        /// <param name="str">×Ö·û´®</param>
+        /// <param name="str">å­—ç¬¦ä¸²</param>
         /// <param name="key">UC KEY</param>
-        /// <param name="expiry">¹ıÆÚÊ±¼ä 0´ú±íÓÀ²»¹ıÆÚ</param>
+        /// <param name="expiry">è¿‡æœŸæ—¶é—´ 0ä»£è¡¨æ°¸ä¸è¿‡æœŸ</param>
         /// <returns></returns>
         public static string AuthCodeEncode(string str, string key, int expiry)
         {
@@ -264,21 +264,21 @@ namespace DS.Web.UCenter
         #endregion
 
 
-        #region ³£ÓÃº¯Êı
+        #region å¸¸ç”¨å‡½æ•°
         /// <summary>
-        /// µÃµ½ UserAgent ×Ö·û´®
+        /// å¾—åˆ° UserAgent å­—ç¬¦ä¸²
         /// </summary>
         /// <returns></returns>
         public static string GetUserAgent()
         {
-            //TODO: ÔÚUA²»Âú×ãÌõ¼şÊ±²»Ê¹ÓÃUA
+            //TODO: åœ¨UAä¸æ»¡è¶³æ¡ä»¶æ—¶ä¸ä½¿ç”¨UA
             return ((HttpContext.Current != null) ? HttpContext.Current.Request.ServerVariables["Http_User_Agent"] : null) ?? "Mozilla/4.0(compatible;MSIE6.0;)";
         }
 
         /// <summary>
-        /// ByteÊı×é×ª×Ö·û´®
+        /// Byteæ•°ç»„è½¬å­—ç¬¦ä¸²
         /// </summary>
-        /// <param name="b">Êı×é</param>
+        /// <param name="b">æ•°ç»„</param>
         /// <returns></returns>
         public static string BytesToString(byte[] b)
         {
@@ -322,29 +322,29 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// ¼ÆËãMd5
+        /// è®¡ç®—Md5
         /// </summary>
-        /// <param name="b">byteÊı×é</param>
-        /// <returns>¼ÆËãºÃµÄ×Ö·û´®(Ğ¡Ğ´)µÄ×Ö½ÚÊı×é</returns>
+        /// <param name="b">byteæ•°ç»„</param>
+        /// <returns>è®¡ç®—å¥½çš„å­—ç¬¦ä¸²(å°å†™)çš„å­—èŠ‚æ•°ç»„</returns>
         public static byte[] Md5(byte[] b)
         {
             return Encode.GetBytes(Md5Raw(b));
         }
 
         /// <summary>
-        /// ¼ÆËãMd5
+        /// è®¡ç®—Md5
         /// </summary>
-        /// <param name="str">byteÊı×é</param>
-        /// <returns>¼ÆËãºÃµÄ×Ö·û´®(Ğ¡Ğ´)</returns>
+        /// <param name="str">byteæ•°ç»„</param>
+        /// <returns>è®¡ç®—å¥½çš„å­—ç¬¦ä¸²(å°å†™)</returns>
         public static string Md5(string str)
         {
             return Md5Raw(Encode.GetBytes(str));
         }
 
         /// <summary>
-        /// ByteÊı×éÏà¼Ó
+        /// Byteæ•°ç»„ç›¸åŠ 
         /// </summary>
-        /// <param name="bytes">Êı×é</param>
+        /// <param name="bytes">æ•°ç»„</param>
         /// <returns></returns>
         public static byte[] AddBytes(params byte[][] bytes)
         {
@@ -362,11 +362,11 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// ByteÊı×é·Ö¸î
+        /// Byteæ•°ç»„åˆ†å‰²
         /// </summary>
-        /// <param name="b">Êı×é</param>
-        /// <param name="start">¿ªÊ¼</param>
-        /// <param name="length">½áÊø</param>
+        /// <param name="b">æ•°ç»„</param>
+        /// <param name="start">å¼€å§‹</param>
+        /// <param name="length">ç»“æŸ</param>
         /// <returns></returns>
         public static byte[] SubBytes(byte[] b, int start, int length = int.MaxValue)
         {
@@ -382,9 +382,9 @@ namespace DS.Web.UCenter
 
 
         /// <summary>
-        /// ¼ÆËãPhp¸ñÊ½µÄµ±Ç°Ê±¼ä
+        /// è®¡ç®—Phpæ ¼å¼çš„å½“å‰æ—¶é—´
         /// </summary>
-        /// <returns>Php¸ñÊ½µÄÊ±¼ä</returns>
+        /// <returns>Phpæ ¼å¼çš„æ—¶é—´</returns>
         public static long PhpTimeNow()
         {
             return DateTimeToPhpTime(DateTime.UtcNow);
@@ -394,7 +394,7 @@ namespace DS.Web.UCenter
         private const long UNIX_EPOCH = 621355968000000000;
         private const int e7 = 10000000;
         /// <summary>
-        /// PhpTime×ªDataTime
+        /// PhpTimeè½¬DataTime
         /// </summary>
         /// <returns></returns>
         public static DateTime PhpTimeToDateTime(long time)
@@ -404,9 +404,9 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// DataTime×ªPhpTime
+        /// DataTimeè½¬PhpTime
         /// </summary>
-        /// <param name="datetime">Ê±¼ä</param>
+        /// <param name="datetime">æ—¶é—´</param>
         /// <returns></returns>
         public static long DateTimeToPhpTime(DateTime datetime)
         {
@@ -416,9 +416,9 @@ namespace DS.Web.UCenter
         private static readonly Random random = new Random();
 
         /// <summary>
-        /// Ëæ»ú×Ö½ÚÊı×é
+        /// éšæœºå­—èŠ‚æ•°ç»„
         /// </summary>
-        /// <param name="lens">³¤¶È</param>
+        /// <param name="lens">é•¿åº¦</param>
         /// <returns></returns>
         public static byte[] RandomBytes(int lens)
         {
@@ -440,9 +440,9 @@ namespace DS.Web.UCenter
 
 
         /// <summary>
-        /// PhpUrl±àÂë
+        /// PhpUrlç¼–ç 
         /// </summary>
-        /// <param name="str">×Ö·û´®</param>
+        /// <param name="str">å­—ç¬¦ä¸²</param>
         /// <returns></returns>
         public static string PhpUrlEncode(string str)
         {
@@ -471,7 +471,7 @@ namespace DS.Web.UCenter
 
 
     /// <summary>
-    /// ²Ù×÷ÀàĞÍ
+    /// æ“ä½œç±»å‹
     /// </summary>
     enum AuthCodeMethod
     {
