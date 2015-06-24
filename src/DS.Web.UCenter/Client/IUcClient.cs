@@ -1,353 +1,353 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 
 namespace DS.Web.UCenter.Client
 {
     ///<summary>
     /// UcApi Client
-    /// Dozer °æÈ¨ËùÓĞ
-    /// ÔÊĞí¸´ÖÆ¡¢ĞŞ¸Ä£¬µ«Çë±£ÁôÎÒµÄÁªÏµ·½Ê½£¡
+    /// Dozer ç‰ˆæƒæ‰€æœ‰
+    /// å…è®¸å¤åˆ¶ã€ä¿®æ”¹ï¼Œä½†è¯·ä¿ç•™æˆ‘çš„è”ç³»æ–¹å¼ï¼
     /// http://www.dozer.cc
     /// mailto:dozer.cc@gmail.com
     ///</summary>
     public interface IUcClient
     {
         /// <summary>
-        /// ÓÃ»§×¢²á
+        /// ç”¨æˆ·æ³¨å†Œ
         /// </summary>
-        /// <param name="userName">ÓÃ»§Ãû</param>
-        /// <param name="passWord">ÃÜÂë</param>
+        /// <param name="userName">ç”¨æˆ·å</param>
+        /// <param name="passWord">å¯†ç </param>
         /// <param name="email">Email</param>
-        /// <param name="questionId">µÇÂ½ÎÊÌâ</param>
-        /// <param name="answer">´ğ°¸</param>
+        /// <param name="questionId">ç™»é™†é—®é¢˜</param>
+        /// <param name="answer">ç­”æ¡ˆ</param>
         /// <returns></returns>
         UcUserRegister UserRegister(string userName, string passWord, string email, int questionId = 0, string answer = "");
 
         /// <summary>
-        /// ÓÃ»§µÇÂ½
+        /// ç”¨æˆ·ç™»é™†
         /// </summary>
-        /// <param name="userName">ÓÃ»§Ãû/Uid/Email</param>
-        /// <param name="passWord">ÃÜÂë</param>
-        /// <param name="loginMethod">µÇÂ¼·½Ê½</param>
-        /// <param name="checkques">ĞèÒªµÇÂ½ÎÊÌâ</param>
-        /// <param name="questionId">ÎÊÌâID</param>
-        /// <param name="answer">´ğ°¸</param>
+        /// <param name="userName">ç”¨æˆ·å/Uid/Email</param>
+        /// <param name="passWord">å¯†ç </param>
+        /// <param name="loginMethod">ç™»å½•æ–¹å¼</param>
+        /// <param name="checkques">éœ€è¦ç™»é™†é—®é¢˜</param>
+        /// <param name="questionId">é—®é¢˜ID</param>
+        /// <param name="answer">ç­”æ¡ˆ</param>
         /// <returns></returns>
         UcUserLogin UserLogin(string userName, string passWord, LoginMethod loginMethod = LoginMethod.UserName, bool checkques = false, int questionId = 0, string answer = "");
 
         /// <summary>
-        /// µÃµ½ÓÃ»§ĞÅÏ¢
+        /// å¾—åˆ°ç”¨æˆ·ä¿¡æ¯
         /// </summary>
-        /// <param name="userName">ÓÃ»§Ãû</param>
+        /// <param name="userName">ç”¨æˆ·å</param>
         /// <returns></returns>
         UcUserInfo UserInfo(string userName);
 
         /// <summary>
-        /// µÃµ½ÓÃ»§ĞÅÏ¢
+        /// å¾—åˆ°ç”¨æˆ·ä¿¡æ¯
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
         UcUserInfo UserInfo(int uid);
 
         /// <summary>
-        /// ¸üĞÂÓÃ»§ĞÅÏ¢
-        /// ¸üĞÂ×ÊÁÏĞèÑéÖ¤ÓÃ»§µÄÔ­ÃÜÂëÊÇ·ñÕıÈ·£¬³ı·ÇÖ¸¶¨ ignoreoldpw Îª 1¡£
-        /// Èç¹ûÖ»ĞŞ¸Ä Email ²»ĞŞ¸ÄÃÜÂë£¬¿ÉÈÃ newpw Îª¿Õ£»
-        /// Í¬ÀíÈç¹ûÖ»ĞŞ¸ÄÃÜÂë²»ĞŞ¸Ä Email£¬¿ÉÈÃ email Îª¿Õ¡£
+        /// æ›´æ–°ç”¨æˆ·ä¿¡æ¯
+        /// æ›´æ–°èµ„æ–™éœ€éªŒè¯ç”¨æˆ·çš„åŸå¯†ç æ˜¯å¦æ­£ç¡®ï¼Œé™¤éæŒ‡å®š ignoreoldpw ä¸º 1ã€‚
+        /// å¦‚æœåªä¿®æ”¹ Email ä¸ä¿®æ”¹å¯†ç ï¼Œå¯è®© newpw ä¸ºç©ºï¼›
+        /// åŒç†å¦‚æœåªä¿®æ”¹å¯†ç ä¸ä¿®æ”¹ Emailï¼Œå¯è®© email ä¸ºç©ºã€‚
         /// </summary>
-        /// <param name="userName">ÓÃ»§Ãû</param>
-        /// <param name="oldPw">¾ÉÃÜÂë</param>
-        /// <param name="newPw">ĞÂÃÜÂë</param>
+        /// <param name="userName">ç”¨æˆ·å</param>
+        /// <param name="oldPw">æ—§å¯†ç </param>
+        /// <param name="newPw">æ–°å¯†ç </param>
         /// <param name="email">Email</param>
-        /// <param name="ignoreOldPw">ÊÇ·ñºöÂÔ¾ÉÃÜÂë</param>
-        /// <param name="questionId">ÃÜÂëÌáÊ¾ÎÊÌâ±àºÅ</param>
-        /// <param name="answer">ÃÜÂëÌáÊ¾ÎÊÌâ´ğ°¸</param>
+        /// <param name="ignoreOldPw">æ˜¯å¦å¿½ç•¥æ—§å¯†ç </param>
+        /// <param name="questionId">å¯†ç æç¤ºé—®é¢˜ç¼–å·</param>
+        /// <param name="answer">å¯†ç æç¤ºé—®é¢˜ç­”æ¡ˆ</param>
         /// <returns></returns>
         UcUserEdit UserEdit(string userName, string oldPw, string newPw, string email, bool ignoreOldPw = false, int questionId = 0, string answer = "");
 
         /// <summary>
-        /// É¾³ıÓÃ»§
+        /// åˆ é™¤ç”¨æˆ·
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
         bool UserDelete(params int[] uid);
 
         /// <summary>
-        /// É¾³ıÓÃ»§Í·Ïñ
+        /// åˆ é™¤ç”¨æˆ·å¤´åƒ
         /// </summary>
         /// <param name="uid">Uid</param>
         void UserDeleteAvatar(params int[] uid);
 
         /// <summary>
-        /// Í¬²½µÇÂ½
+        /// åŒæ­¥ç™»é™†
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <returns>Í¬²½µÇÂ½µÄ Html ´úÂë</returns>
+        /// <returns>åŒæ­¥ç™»é™†çš„ Html ä»£ç </returns>
         string UserSynlogin(int uid);
 
         /// <summary>
-        /// Í¬²½µÇ³ö
+        /// åŒæ­¥ç™»å‡º
         /// </summary>
-        /// <returns>Í¬²½µÇ³öµÄ Html ´úÂë</returns>
+        /// <returns>åŒæ­¥ç™»å‡ºçš„ Html ä»£ç </returns>
         string UserSynLogout();
 
         /// <summary>
-        /// ¼ì²é Email ¸ñÊ½
+        /// æ£€æŸ¥ Email æ ¼å¼
         /// </summary>
         /// <param name="email">Email</param>
         /// <returns></returns>
         UcUserCheckEmail UserCheckEmail(string email);
 
         /// <summary>
-        /// Ôö¼ÓÊÜ±£»¤ÓÃ»§
+        /// å¢åŠ å—ä¿æŠ¤ç”¨æˆ·
         /// </summary>
-        /// <param name="admin">²Ù×÷¹ÜÀíÔ±</param>
-        /// <param name="userName">ÓÃ»§Ãû</param>
+        /// <param name="admin">æ“ä½œç®¡ç†å‘˜</param>
+        /// <param name="userName">ç”¨æˆ·å</param>
         /// <returns></returns>
         bool UserAddProtected(string admin, params string[] userName);
 
         /// <summary>
-        /// É¾³ıÊÜ±£»¤ÓÃ»§
+        /// åˆ é™¤å—ä¿æŠ¤ç”¨æˆ·
         /// </summary>
-        /// <param name="admin">²Ù×÷¹ÜÀíÔ±</param>
-        /// <param name="userName">ÓÃ»§Ãû</param>
+        /// <param name="admin">æ“ä½œç®¡ç†å‘˜</param>
+        /// <param name="userName">ç”¨æˆ·å</param>
         /// <returns></returns>
         bool UserDeleteProtected(string admin, params string[] userName);
 
         /// <summary>
-        /// µÃµ½ÊÜ±£»¤ÓÃ»§
+        /// å¾—åˆ°å—ä¿æŠ¤ç”¨æˆ·
         /// </summary>
         /// <returns></returns>
         UcUserProtecteds UserGetProtected();
 
         /// <summary>
-        /// ºÏ²¢ÓÃ»§
+        /// åˆå¹¶ç”¨æˆ·
         /// </summary>
-        /// <param name="oldUserName">ÀÏÓÃ»§Ãû</param>
-        /// <param name="newUserName">ĞÂÓÃ»§Ãû</param>
+        /// <param name="oldUserName">è€ç”¨æˆ·å</param>
+        /// <param name="newUserName">æ–°ç”¨æˆ·å</param>
         /// <param name="uid">Uid</param>
-        /// <param name="passWord">ÃÜÂë</param>
+        /// <param name="passWord">å¯†ç </param>
         /// <param name="email">Email</param>
         /// <returns></returns>
         UcUserMerge UserMerge(string oldUserName, string newUserName, int uid, string passWord, string email);
 
         /// <summary>
-        /// ÒÆ³ıÖØÃûÓÃ»§¼ÇÂ¼
+        /// ç§»é™¤é‡åç”¨æˆ·è®°å½•
         /// </summary>
-        /// <param name="userName">ÓÃ»§Ãû</param>
+        /// <param name="userName">ç”¨æˆ·å</param>
         void UserMergeRemove(string userName);
 
         /// <summary>
-        /// µÃµ½ÓÃ»§»ı·Ö
+        /// å¾—åˆ°ç”¨æˆ·ç§¯åˆ†
         /// </summary>
-        /// <param name="appId">Ó¦ÓÃ³ÌĞòId</param>
+        /// <param name="appId">åº”ç”¨ç¨‹åºId</param>
         /// <param name="uid">Uid</param>
-        /// <param name="credit">»ı·Ö±àºÅ</param>
+        /// <param name="credit">ç§¯åˆ†ç¼–å·</param>
         /// <returns></returns>
         int UserGetCredit(int appId, int uid, int credit);
 
         /// <summary>
-        /// ¼ì²éĞÂÏûÏ¢
+        /// æ£€æŸ¥æ–°æ¶ˆæ¯
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
         UcPmCheckNew PmCheckNew(int uid);
 
         /// <summary>
-        /// ·¢ËÍ¶ÌÏûÏ¢
+        /// å‘é€çŸ­æ¶ˆæ¯
         /// </summary>
-        /// <param name="fromUid">·¢¼şÈËÓÃ»§ ID£¬0 ÎªÏµÍ³ÏûÏ¢</param>
-        /// <param name="replyPmId">»Ø¸´µÄÏûÏ¢ ID£¬0:·¢ËÍĞÂµÄ¶ÌÏûÏ¢£¬´óÓÚ 0:»Ø¸´Ö¸¶¨µÄ¶ÌÏûÏ¢</param>
-        /// <param name="subject">ÏûÏ¢±êÌâ</param>
-        /// <param name="message">ÏûÏ¢ÄÚÈİ</param>
-        /// <param name="msgTo">ÊÕ¼şÈËID</param>
+        /// <param name="fromUid">å‘ä»¶äººç”¨æˆ· IDï¼Œ0 ä¸ºç³»ç»Ÿæ¶ˆæ¯</param>
+        /// <param name="replyPmId">å›å¤çš„æ¶ˆæ¯ IDï¼Œ0:å‘é€æ–°çš„çŸ­æ¶ˆæ¯ï¼Œå¤§äº 0:å›å¤æŒ‡å®šçš„çŸ­æ¶ˆæ¯</param>
+        /// <param name="subject">æ¶ˆæ¯æ ‡é¢˜</param>
+        /// <param name="message">æ¶ˆæ¯å†…å®¹</param>
+        /// <param name="msgTo">æ”¶ä»¶äººID</param>
         /// <returns></returns>
         UcPmSend PmSend(int fromUid, int replyPmId, string subject, string message, params int[] msgTo);
 
         /// <summary>
-        /// ·¢ËÍ¶ÌÏûÏ¢
+        /// å‘é€çŸ­æ¶ˆæ¯
         /// </summary>
-        /// <param name="fromUid">·¢¼şÈËÓÃ»§ ID£¬0 ÎªÏµÍ³ÏûÏ¢</param>
-        /// <param name="replyPmId">»Ø¸´µÄÏûÏ¢ ID£¬0:·¢ËÍĞÂµÄ¶ÌÏûÏ¢£¬´óÓÚ 0:»Ø¸´Ö¸¶¨µÄ¶ÌÏûÏ¢</param>
-        /// <param name="subject">ÏûÏ¢±êÌâ</param>
-        /// <param name="message">ÏûÏ¢ÄÚÈİ</param>
-        /// <param name="msgTo">ÊÕ¼şÈËÓÃ»§Ãû</param>
+        /// <param name="fromUid">å‘ä»¶äººç”¨æˆ· IDï¼Œ0 ä¸ºç³»ç»Ÿæ¶ˆæ¯</param>
+        /// <param name="replyPmId">å›å¤çš„æ¶ˆæ¯ IDï¼Œ0:å‘é€æ–°çš„çŸ­æ¶ˆæ¯ï¼Œå¤§äº 0:å›å¤æŒ‡å®šçš„çŸ­æ¶ˆæ¯</param>
+        /// <param name="subject">æ¶ˆæ¯æ ‡é¢˜</param>
+        /// <param name="message">æ¶ˆæ¯å†…å®¹</param>
+        /// <param name="msgTo">æ”¶ä»¶äººç”¨æˆ·å</param>
         /// <returns></returns>
         UcPmSend PmSend(int fromUid, int replyPmId, string subject, string message, params string[] msgTo);
 
         /// <summary>
-        /// É¾³ı¶ÌÏûÏ¢
+        /// åˆ é™¤çŸ­æ¶ˆæ¯
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="folder">ÎÄ¼ş¼Ğ</param>
-        /// <param name="pmIds">¶ÌÏûÏ¢ID</param>
-        /// <returns>É¾³ıµÄÊıÁ¿</returns>
+        /// <param name="folder">æ–‡ä»¶å¤¹</param>
+        /// <param name="pmIds">çŸ­æ¶ˆæ¯ID</param>
+        /// <returns>åˆ é™¤çš„æ•°é‡</returns>
         int PmDelete(int uid, PmDeleteFolder folder, params int[] pmIds);
 
         /// <summary>
-        /// É¾³ı»á»°
+        /// åˆ é™¤ä¼šè¯
         /// </summary>
-        /// <param name="uid">·¢¼şÈË</param>
-        /// <param name="toUids">ÊÕ¼şÈË</param>
-        /// <returns>É¾³ıµÄÊıÁ¿</returns>
+        /// <param name="uid">å‘ä»¶äºº</param>
+        /// <param name="toUids">æ”¶ä»¶äºº</param>
+        /// <returns>åˆ é™¤çš„æ•°é‡</returns>
         int PmDelete(int uid, params int[] toUids);
 
         /// <summary>
-        /// ĞŞ¸ÄÔÄ¶Á×´Ì¬
+        /// ä¿®æ”¹é˜…è¯»çŠ¶æ€
         /// </summary>
-        /// <param name="uid">·¢¼şÈË</param>
-        /// <param name="toUids">ÊÕ¼şÈË</param>
-        /// <param name="pmIds">¶ÌÏûÏ¢ID</param>
-        /// <param name="readStatus">ÔÄ¶Á×´Ì¬</param>
+        /// <param name="uid">å‘ä»¶äºº</param>
+        /// <param name="toUids">æ”¶ä»¶äºº</param>
+        /// <param name="pmIds">çŸ­æ¶ˆæ¯ID</param>
+        /// <param name="readStatus">é˜…è¯»çŠ¶æ€</param>
         void PmReadStatus(int uid, int toUids, int pmIds = 0, ReadStatus readStatus = ReadStatus.Readed);
 
         /// <summary>
-        /// ĞŞ¸ÄÔÄ¶Á×´Ì¬
+        /// ä¿®æ”¹é˜…è¯»çŠ¶æ€
         /// </summary>
-        /// <param name="uid">·¢¼şÈË</param>
-        /// <param name="toUids">ÊÕ¼şÈËÊı×é</param>
-        /// <param name="pmIds">¶ÌÏûÏ¢IDÊı×é</param>
-        /// <param name="readStatus">ÔÄ¶Á×´Ì¬</param>
+        /// <param name="uid">å‘ä»¶äºº</param>
+        /// <param name="toUids">æ”¶ä»¶äººæ•°ç»„</param>
+        /// <param name="pmIds">çŸ­æ¶ˆæ¯IDæ•°ç»„</param>
+        /// <param name="readStatus">é˜…è¯»çŠ¶æ€</param>
         void PmReadStatus(int uid, IEnumerable<int> toUids, IEnumerable<int> pmIds, ReadStatus readStatus = ReadStatus.Readed);
 
         /// <summary>
-        /// »ñÈ¡¶ÌÏûÏ¢ÁĞ±í
+        /// è·å–çŸ­æ¶ˆæ¯åˆ—è¡¨
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="page">µ±Ç°Ò³±àºÅ£¬Ä¬ÈÏÖµ 1</param>
-        /// <param name="pageSize">Ã¿Ò³×î´óÌõÄ¿Êı£¬Ä¬ÈÏÖµ 10</param>
-        /// <param name="folder">¶ÌÏûÏ¢ËùÔÚµÄÎÄ¼ş¼Ğ</param>
-        /// <param name="filter">¹ıÂË·½Ê½</param>
-        /// <param name="msgLen">½ØÈ¡¶ÌÏûÏ¢ÄÚÈİÎÄ×ÖµÄ³¤¶È£¬0 Îª²»½ØÈ¡£¬Ä¬ÈÏÖµ 0</param>
+        /// <param name="page">å½“å‰é¡µç¼–å·ï¼Œé»˜è®¤å€¼ 1</param>
+        /// <param name="pageSize">æ¯é¡µæœ€å¤§æ¡ç›®æ•°ï¼Œé»˜è®¤å€¼ 10</param>
+        /// <param name="folder">çŸ­æ¶ˆæ¯æ‰€åœ¨çš„æ–‡ä»¶å¤¹</param>
+        /// <param name="filter">è¿‡æ»¤æ–¹å¼</param>
+        /// <param name="msgLen">æˆªå–çŸ­æ¶ˆæ¯å†…å®¹æ–‡å­—çš„é•¿åº¦ï¼Œ0 ä¸ºä¸æˆªå–ï¼Œé»˜è®¤å€¼ 0</param>
         /// <returns></returns>
         UcPmList PmList(int uid, int page = 1, int pageSize = 10, PmReadFolder folder = PmReadFolder.NewBox, PmReadFilter filter = PmReadFilter.NewPm, int msgLen = 0);
 
         /// <summary>
-        /// »ñÈ¡¶ÌÏûÏ¢ÄÚÈİ
-        /// ±¾½Ó¿Úº¯ÊıÓÃÓÚ·µ»ØÖ¸¶¨ÓÃ»§µÄÖ¸¶¨ÏûÏ¢ ID µÄÏûÏ¢£¬·µ»ØµÄÊı¾İÖĞ°üº¬Õë¶ÔÕâ¸öÏûÏ¢µÄ»Ø¸´¡£
-        /// Èç¹ûÖ¸¶¨ touid ²ÎÊı£¬ÄÇÃ´¶ÌÏûÏ¢½«ÁĞ³öËùÓĞ uid ºÍ touid Ö®¼äµÄ¶ÌÏûÏ¢£¬daterange ¿ÉÒÔÖ¸¶¨·µ»ØÏûÏ¢µÄÈÕÆÚ·¶Î§¡£
+        /// è·å–çŸ­æ¶ˆæ¯å†…å®¹
+        /// æœ¬æ¥å£å‡½æ•°ç”¨äºè¿”å›æŒ‡å®šç”¨æˆ·çš„æŒ‡å®šæ¶ˆæ¯ ID çš„æ¶ˆæ¯ï¼Œè¿”å›çš„æ•°æ®ä¸­åŒ…å«é’ˆå¯¹è¿™ä¸ªæ¶ˆæ¯çš„å›å¤ã€‚
+        /// å¦‚æœæŒ‡å®š touid å‚æ•°ï¼Œé‚£ä¹ˆçŸ­æ¶ˆæ¯å°†åˆ—å‡ºæ‰€æœ‰ uid å’Œ touid ä¹‹é—´çš„çŸ­æ¶ˆæ¯ï¼Œdaterange å¯ä»¥æŒ‡å®šè¿”å›æ¶ˆæ¯çš„æ—¥æœŸèŒƒå›´ã€‚
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="pmId">¶ÌÏûÏ¢ID</param>
-        /// <param name="toUid">ÊÕ¼şÈËID</param>
-        /// <param name="dateRange">ÈÕÆÚ·¶Î§</param>
+        /// <param name="pmId">çŸ­æ¶ˆæ¯ID</param>
+        /// <param name="toUid">æ”¶ä»¶äººID</param>
+        /// <param name="dateRange">æ—¥æœŸèŒƒå›´</param>
         /// <returns></returns>
         UcPmView PmView(int uid, int pmId, int toUid = 0, DateRange dateRange = DateRange.Today);
 
         /// <summary>
-        /// »ñÈ¡µ¥Ìõ¶ÌÏûÏ¢ÄÚÈİ
+        /// è·å–å•æ¡çŸ­æ¶ˆæ¯å†…å®¹
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="type">ÀàĞÍ</param>
-        /// <param name="pmId">¶ÌÏûÏ¢ID</param>
+        /// <param name="type">ç±»å‹</param>
+        /// <param name="pmId">çŸ­æ¶ˆæ¯ID</param>
         /// <returns></returns>
         UcPm PmViewNode(int uid, ViewType type = ViewType.Specified, int pmId = 0);
 
         /// <summary>
-        /// ºöÂÔÎ´¶ÁÏûÏ¢ÌáÊ¾
+        /// å¿½ç•¥æœªè¯»æ¶ˆæ¯æç¤º
         /// </summary>
         /// <param name="uid">Uid</param>
         void PmIgnore(int uid);
 
         /// <summary>
-        /// µÃµ½ºÚÃûµ¥
+        /// å¾—åˆ°é»‘åå•
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
         UcPmBlacklsGet PmBlacklsGet(int uid);
 
         /// <summary>
-        /// ÉèÖÃºÚÃûµ¥Îª½ûÖ¹ËùÓĞÈË£¨Çå¿ÕÔ­Êı¾İ£©
+        /// è®¾ç½®é»‘åå•ä¸ºç¦æ­¢æ‰€æœ‰äººï¼ˆæ¸…ç©ºåŸæ•°æ®ï¼‰
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
         bool PmBlacklsSetAll(int uid);
 
         /// <summary>
-        /// ÉèÖÃºÚÃûµ¥£¨Çå¿ÕÔ­Êı¾İ£©
+        /// è®¾ç½®é»‘åå•ï¼ˆæ¸…ç©ºåŸæ•°æ®ï¼‰
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="userName">ºÚÃûµ¥ÓÃ»§Ãû</param>
+        /// <param name="userName">é»‘åå•ç”¨æˆ·å</param>
         /// <returns></returns>
         bool PmBlacklsSet(int uid, params string[] userName);
 
         /// <summary>
-        /// Ìí¼ÓºÚÃûµ¥Îª½ûÖ¹ËùÓĞÈË
+        /// æ·»åŠ é»‘åå•ä¸ºç¦æ­¢æ‰€æœ‰äºº
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
         bool PmBlacklsAddAll(int uid);
 
         /// <summary>
-        /// Ôö¼ÓºÚÃûµ¥
+        /// å¢åŠ é»‘åå•
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="userName">ºÚÃûµ¥ÓÃ»§Ãû</param>
+        /// <param name="userName">é»‘åå•ç”¨æˆ·å</param>
         /// <returns></returns>
         bool PmBlacklsAdd(int uid, params string[] userName);
 
         /// <summary>
-        /// É¾³ıºÚÃûµ¥ÖĞµÄ½ûÖ¹ËùÓĞÈË
+        /// åˆ é™¤é»‘åå•ä¸­çš„ç¦æ­¢æ‰€æœ‰äºº
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
         void PmBlacklsDeleteAll(int uid);
 
         /// <summary>
-        /// É¾³ıºÚÃûµ¥
+        /// åˆ é™¤é»‘åå•
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="userName">ºÚÃûµ¥ÓÃ»§Ãû</param>
+        /// <param name="userName">é»‘åå•ç”¨æˆ·å</param>
         void PmBlacklsDelete(int uid, params string[] userName);
 
         /// <summary>
-        /// Ôö¼ÓºÃÓÑ
+        /// å¢åŠ å¥½å‹
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="friendId">ºÃÓÑID</param>
-        /// <param name="comment">±¸×¢</param>
+        /// <param name="friendId">å¥½å‹ID</param>
+        /// <param name="comment">å¤‡æ³¨</param>
         /// <returns></returns>
         bool FriendAdd(int uid, int friendId, string comment = "");
 
         /// <summary>
-        /// É¾³ıºÃÓÑ
+        /// åˆ é™¤å¥½å‹
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="friendIds">ºÃÓÑID</param>
+        /// <param name="friendIds">å¥½å‹ID</param>
         /// <returns></returns>
         bool FriendDelete(int uid, params int[] friendIds);
 
         /// <summary>
-        /// »ñÈ¡ºÃÓÑ×ÜÊı
+        /// è·å–å¥½å‹æ€»æ•°
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="direction">·½Ïò</param>
-        /// <returns>ºÃÓÑÊıÄ¿</returns>
+        /// <param name="direction">æ–¹å‘</param>
+        /// <returns>å¥½å‹æ•°ç›®</returns>
         int FriendTotalNum(int uid, FriendDirection direction = FriendDirection.All);
 
         /// <summary>
-        /// ºÃÓÑÁĞ±í
+        /// å¥½å‹åˆ—è¡¨
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="page">µ±Ç°Ò³±àºÅ</param>
-        /// <param name="pageSize">Ã¿Ò³×î´óÌõÄ¿Êı</param>
-        /// <param name="totalNum">ºÃÓÑ×ÜÊı</param>
-        /// <param name="direction">·½Ïò</param>
+        /// <param name="page">å½“å‰é¡µç¼–å·</param>
+        /// <param name="pageSize">æ¯é¡µæœ€å¤§æ¡ç›®æ•°</param>
+        /// <param name="totalNum">å¥½å‹æ€»æ•°</param>
+        /// <param name="direction">æ–¹å‘</param>
         /// <returns></returns>
         UcFriends FriendList(int uid, int page = 1, int pageSize = 10, int totalNum = 10, FriendDirection direction = FriendDirection.All);
 
         /// <summary>
-        /// »ı·Ö¶Ò»»ÇëÇó
+        /// ç§¯åˆ†å…‘æ¢è¯·æ±‚
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="from">Ô­»ı·Ö</param>
-        /// <param name="to">Ä¿±ê»ı·Ö</param>
-        /// <param name="toAppId">Ä¿±êÓ¦ÓÃID</param>
-        /// <param name="amount">»ı·ÖÊı¶î</param>
+        /// <param name="from">åŸç§¯åˆ†</param>
+        /// <param name="to">ç›®æ ‡ç§¯åˆ†</param>
+        /// <param name="toAppId">ç›®æ ‡åº”ç”¨ID</param>
+        /// <param name="amount">ç§¯åˆ†æ•°é¢</param>
         /// <returns></returns>
         bool CreditExchangeRequest(int uid, int from, int to, int toAppId, int amount);
 
         ///<summary>
-        /// ĞŞ¸ÄÍ·Ïñ
+        /// ä¿®æ”¹å¤´åƒ
         ///</summary>
         ///<param name="uid">Uid</param>
         ///<param name="type"></param>
@@ -355,16 +355,16 @@ namespace DS.Web.UCenter.Client
         string Avatar(int uid, AvatarType type = AvatarType.Virtual);
 
         /// <summary>
-        /// µÃµ½Í·ÏñµØÖ·
+        /// å¾—åˆ°å¤´åƒåœ°å€
         /// </summary>
         /// <param name="uid">Uid</param>
-        /// <param name="size">´óĞ¡</param>
-        /// <param name="type">ÀàĞÍ</param>
+        /// <param name="size">å¤§å°</param>
+        /// <param name="type">ç±»å‹</param>
         /// <returns></returns>
         string AvatarUrl(int uid,AvatarSize size,AvatarType type = AvatarType.Virtual);
 
         /// <summary>
-        /// ¼ì²éÍ·ÏñÊÇ·ñ´æÔÚ
+        /// æ£€æŸ¥å¤´åƒæ˜¯å¦å­˜åœ¨
         /// </summary>
         /// <param name="uid"></param>
         /// <param name="size"></param>
@@ -373,81 +373,81 @@ namespace DS.Web.UCenter.Client
         bool AvatarCheck(int uid, AvatarSize size = AvatarSize.Middle, AvatarType type = AvatarType.Virtual);
 
         /// <summary>
-        /// »ñÈ¡±êÇ©Êı¾İ
+        /// è·å–æ ‡ç­¾æ•°æ®
         /// </summary>
-        /// <param name="tagName">±êÇ©Ãû</param>
-        /// <param name="number">Ó¦ÓÃ³ÌĞòID¶ÔÓ¦µÄÊıÁ¿</param>
+        /// <param name="tagName">æ ‡ç­¾å</param>
+        /// <param name="number">åº”ç”¨ç¨‹åºIDå¯¹åº”çš„æ•°é‡</param>
         /// <returns></returns>
         UcTags TagGet(string tagName, IEnumerable<KeyValuePair<string, string>> number);
 
         /// <summary>
-        /// Ìí¼ÓÊÂ¼ş
+        /// æ·»åŠ äº‹ä»¶
         /// </summary>
-        /// <param name="icon">Í¼±êÀàĞÍ£¬Èç£ºthread¡¢post¡¢video¡¢goods¡¢reward¡¢debate¡¢blog¡¢album¡¢comment¡¢wall¡¢friend</param>
+        /// <param name="icon">å›¾æ ‡ç±»å‹ï¼Œå¦‚ï¼šthreadã€postã€videoã€goodsã€rewardã€debateã€blogã€albumã€commentã€wallã€friend</param>
         /// <param name="uid">Uid</param>
-        /// <param name="userName">ÓÃ»§Ãû</param>
-        /// <param name="titleTemplate">±êÌâÄ£°å</param>
-        /// <param name="titleData">±êÌâÊı¾İÊı×é</param>
-        /// <param name="bodyTemplate">ÄÚÈİÄ£°å</param>
-        /// <param name="bodyData">Ä£°åÊı¾İ</param>
-        /// <param name="bodyGeneral">ÏàÍ¬ÊÂ¼şºÏ²¢Ê±ÓÃµ½µÄÊı¾İ£ºÌØ¶¨µÄÊı×é£¬Ö»ÓĞÁ½Ïî£ºname¡¢link£¬±£Áô</param>
-        /// <param name="targetIds">±£Áô</param>
-        /// <param name="images">Ïà¹ØÍ¼Æ¬µÄ URL ºÍÁ´½ÓµØÖ·¡£Ò»¸öÍ¼Æ¬µØÖ·£¬Ò»¸öÁ´½ÓµØÖ·</param>
+        /// <param name="userName">ç”¨æˆ·å</param>
+        /// <param name="titleTemplate">æ ‡é¢˜æ¨¡æ¿</param>
+        /// <param name="titleData">æ ‡é¢˜æ•°æ®æ•°ç»„</param>
+        /// <param name="bodyTemplate">å†…å®¹æ¨¡æ¿</param>
+        /// <param name="bodyData">æ¨¡æ¿æ•°æ®</param>
+        /// <param name="bodyGeneral">ç›¸åŒäº‹ä»¶åˆå¹¶æ—¶ç”¨åˆ°çš„æ•°æ®ï¼šç‰¹å®šçš„æ•°ç»„ï¼Œåªæœ‰ä¸¤é¡¹ï¼šnameã€linkï¼Œä¿ç•™</param>
+        /// <param name="targetIds">ä¿ç•™</param>
+        /// <param name="images">ç›¸å…³å›¾ç‰‡çš„ URL å’Œé“¾æ¥åœ°å€ã€‚ä¸€ä¸ªå›¾ç‰‡åœ°å€ï¼Œä¸€ä¸ªé“¾æ¥åœ°å€</param>
         /// <returns></returns>
         int FeedAdd(FeedIcon icon, int uid, string userName, string titleTemplate, string titleData, string bodyTemplate, string bodyData, string bodyGeneral, string targetIds, params string[] images);
 
         /// <summary>
-        /// µÃµ½Feed
+        /// å¾—åˆ°Feed
         /// </summary>
-        /// <param name="limit">ÊıÁ¿ÏŞÖÆ</param>
+        /// <param name="limit">æ•°é‡é™åˆ¶</param>
         /// <returns></returns>
         UcFeeds FeedGet(int limit);
 
         /// <summary>
-        /// µÃµ½Ó¦ÓÃÁĞ±í
+        /// å¾—åˆ°åº”ç”¨åˆ—è¡¨
         /// </summary>
         /// <returns></returns>
         UcApps AppList();
 
         /// <summary>
-        /// Ìí¼ÓÓÊ¼şµ½¶ÓÁĞ
+        /// æ·»åŠ é‚®ä»¶åˆ°é˜Ÿåˆ—
         /// </summary>
-        /// <param name="subject">±êÌâ</param>
-        /// <param name="message">ÄÚÈİ</param>
+        /// <param name="subject">æ ‡é¢˜</param>
+        /// <param name="message">å†…å®¹</param>
         /// <param name="uids">Uid</param>
         /// <returns></returns>
         UcMailQueue MailQueue(string subject, string message,params int[] uids);
 
         /// <summary>
-        /// Ìí¼ÓÓÊ¼şµ½¶ÓÁĞ
+        /// æ·»åŠ é‚®ä»¶åˆ°é˜Ÿåˆ—
         /// </summary>
-        /// <param name="subject">±êÌâ</param>
-        /// <param name="message">ÄÚÈİ</param>
-        /// <param name="emails">Ä¿±êEmail</param>
+        /// <param name="subject">æ ‡é¢˜</param>
+        /// <param name="message">å†…å®¹</param>
+        /// <param name="emails">ç›®æ ‡Email</param>
         /// <returns></returns>
         UcMailQueue MailQueue(string subject, string message, params string[] emails);
 
         /// <summary>
-        /// Ìí¼ÓÓÊ¼şµ½¶ÓÁĞ
+        /// æ·»åŠ é‚®ä»¶åˆ°é˜Ÿåˆ—
         /// </summary>
-        /// <param name="subject">±êÌâ</param>
-        /// <param name="message">ÄÚÈİ</param>
+        /// <param name="subject">æ ‡é¢˜</param>
+        /// <param name="message">å†…å®¹</param>
         /// <param name="uids">Uid</param>
-        /// <param name="emails">Ä¿±êemail</param>
+        /// <param name="emails">ç›®æ ‡email</param>
         /// <returns></returns>
         UcMailQueue MailQueue(string subject, string message, int[] uids, string[] emails);
 
         /// <summary>
-        /// Ìí¼ÓÓÊ¼şµ½¶ÓÁĞ
+        /// æ·»åŠ é‚®ä»¶åˆ°é˜Ÿåˆ—
         /// </summary>
-        /// <param name="subject">±êÌâ</param>
-        /// <param name="message">ÄÚÈİ</param>
-        /// <param name="fromMail">·¢ĞÅÈË£¬¿ÉÑ¡²ÎÊı£¬Ä¬ÈÏÎª¿Õ£¬ucºóÌ¨ÉèÖÃµÄÓÊ¼şÀ´Ô´×÷Îª·¢ĞÅÈËµØÖ·</param>
-        /// <param name="charset">ÓÊ¼ş×Ö·û¼¯£¬¿ÉÑ¡²ÎÊı£¬Ä¬ÈÏÎªgbk</param>
-        /// <param name="htmlOn">ÊÇ·ñÊÇhtml¸ñÊ½µÄÓÊ¼ş£¬¿ÉÑ¡²ÎÊı£¬Ä¬ÈÏÎªFALSE£¬¼´ÎÄ±¾ÓÊ¼ş</param>
-        /// <param name="level">ÓÊ¼ş¼¶±ğ£¬¿ÉÑ¡²ÎÊı£¬Ä¬ÈÏÎª1£¬Êı×Ö´óµÄÓÅÏÈ·¢ËÍ£¬È¡ÖµÎª0µÄÊ±ºòÁ¢¼´·¢ËÍ£¬ÓÊ¼ş²»Èë¶ÓÁĞ</param>
+        /// <param name="subject">æ ‡é¢˜</param>
+        /// <param name="message">å†…å®¹</param>
+        /// <param name="fromMail">å‘ä¿¡äººï¼Œå¯é€‰å‚æ•°ï¼Œé»˜è®¤ä¸ºç©ºï¼Œucåå°è®¾ç½®çš„é‚®ä»¶æ¥æºä½œä¸ºå‘ä¿¡äººåœ°å€</param>
+        /// <param name="charset">é‚®ä»¶å­—ç¬¦é›†ï¼Œå¯é€‰å‚æ•°ï¼Œé»˜è®¤ä¸ºgbk</param>
+        /// <param name="htmlOn">æ˜¯å¦æ˜¯htmlæ ¼å¼çš„é‚®ä»¶ï¼Œå¯é€‰å‚æ•°ï¼Œé»˜è®¤ä¸ºFALSEï¼Œå³æ–‡æœ¬é‚®ä»¶</param>
+        /// <param name="level">é‚®ä»¶çº§åˆ«ï¼Œå¯é€‰å‚æ•°ï¼Œé»˜è®¤ä¸º1ï¼Œæ•°å­—å¤§çš„ä¼˜å…ˆå‘é€ï¼Œå–å€¼ä¸º0çš„æ—¶å€™ç«‹å³å‘é€ï¼Œé‚®ä»¶ä¸å…¥é˜Ÿåˆ—</param>
         /// <param name="uids">Uid</param>
-        /// <param name="emails">Ä¿±êemail</param>
+        /// <param name="emails">ç›®æ ‡email</param>
         /// <returns></returns>
         UcMailQueue MailQueue(string subject,string message,string fromMail,string charset,bool htmlOn,int level,int[] uids,string[] emails);
     }

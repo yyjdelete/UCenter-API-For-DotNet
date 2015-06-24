@@ -6,7 +6,7 @@
     public class UcUserRegister
     {
         /// <summary>
-        /// Uid
+        /// Uid, 若成功(大于0), 为用户uid, 若注册不成功(小于等于0), 则为错误码
         /// </summary>
         public int Uid { get;private set; }
         /// <summary>

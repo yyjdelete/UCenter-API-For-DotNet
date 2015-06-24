@@ -23,7 +23,7 @@ namespace DS.Web.UCenter
         { }
 
         /// <summary>
-        /// Uid
+        /// Uid, 若成功(大于0), 为用户uid, 若不成功(小于等于0), 则为错误码
         /// </summary>
         public int Uid { get; set; }
         /// <summary>

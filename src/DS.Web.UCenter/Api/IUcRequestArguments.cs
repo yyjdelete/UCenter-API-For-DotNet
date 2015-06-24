@@ -1,11 +1,11 @@
-using System.Collections.Specialized;
+ï»¿using System.Collections.Specialized;
 
 namespace DS.Web.UCenter.Api
 {
     /// <summary>
-    /// Requser²ÎÊı
-    /// Dozer °æÈ¨ËùÓĞ
-    /// ÔÊĞí¸´ÖÆ¡¢ĞŞ¸Ä£¬µ«Çë±£ÁôÎÒµÄÁªÏµ·½Ê½£¡
+    /// Requserå‚æ•°
+    /// Dozer ç‰ˆæƒæ‰€æœ‰
+    /// å…è®¸å¤åˆ¶ã€ä¿®æ”¹ï¼Œä½†è¯·ä¿ç•™æˆ‘çš„è”ç³»æ–¹å¼ï¼
     /// http://www.dozer.cc
     /// mailto:dozer.cc@gmail.com
     /// </summary>
@@ -16,16 +16,16 @@ namespace DS.Web.UCenter.Api
         /// </summary>
         string Action { get; }
         /// <summary>
-        /// Ê±¼ä
+        /// æ—¶é—´
         /// </summary>
         long Time { get; }
         /// <summary>
-        /// Query²ÎÊı
+        /// Queryå‚æ•°
         /// </summary>
         NameValueCollection QueryString { get; }
 
         /// <summary>
-        /// Form²ÎÊı
+        /// Formå‚æ•°
         /// </summary>
         string FormData { get; }
 

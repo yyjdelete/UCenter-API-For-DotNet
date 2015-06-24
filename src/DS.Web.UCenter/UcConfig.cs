@@ -1,13 +1,13 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 
 namespace DS.Web.UCenter
 {
     /// <summary>
-    /// ÅäÖÃ
-    /// Dozer °æÈ¨ËùÓĞ
-    /// ÔÊĞí¸´ÖÆ¡¢ĞŞ¸Ä£¬µ«Çë±£ÁôÎÒµÄÁªÏµ·½Ê½£¡
+    /// é…ç½®
+    /// Dozer ç‰ˆæƒæ‰€æœ‰
+    /// å…è®¸å¤åˆ¶ã€ä¿®æ”¹ï¼Œä½†è¯·ä¿ç•™æˆ‘çš„è”ç³»æ–¹å¼ï¼
     /// http://www.dozer.cc
     /// mailto:dozer.cc@gmail.com
     /// </summary>
@@ -17,10 +17,10 @@ namespace DS.Web.UCenter
         private static IDictionary<string,string> Items{get { return _items ?? (_items = new Dictionary<string, string>()); }}
 
         /// <summary>
-        /// ¶ÁÈ¡¼üÖµ£¬²¢×÷»º´æ(·ÇÏß³Ì°²È«)
+        /// è¯»å–é”®å€¼ï¼Œå¹¶ä½œç¼“å­˜(éçº¿ç¨‹å®‰å…¨)
         /// </summary>
-        /// <param name="key">¼ü</param>
-        /// <returns>Öµ</returns>
+        /// <param name="key">é”®</param>
+        /// <returns>å€¼</returns>
         private static string getValueTemp(string key)
         {
             string val;
@@ -33,165 +33,165 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// µÃµ½ÅäÖÃ
+        /// å¾—åˆ°é…ç½®
         /// </summary>
         /// <param name="key">KEY</param>
-        /// <param name="defaultValue">Ä¬ÈÏÖµ</param>
-        /// <param name="checkEmpty">ÊÇ·ñ¼ì²éÊÇ·ñÎª¿Õ</param>
-        /// <exception cref="ConfigurationErrorsException">ÅäÖÃĞÅÏ¢¶ªÊ§´íÎó</exception>
-        /// <returns>×Ö·û´®ÀàĞÍ</returns>
+        /// <param name="defaultValue">é»˜è®¤å€¼</param>
+        /// <param name="checkEmpty">æ˜¯å¦æ£€æŸ¥æ˜¯å¦ä¸ºç©º</param>
+        /// <exception cref="ConfigurationErrorsException">é…ç½®ä¿¡æ¯ä¸¢å¤±é”™è¯¯</exception>
+        /// <returns>å­—ç¬¦ä¸²ç±»å‹</returns>
         private static string getStringValue(string key, string defaultValue = "", bool checkEmpty = false)
         {
             var str = getValueTemp(key);
             if (str != null)
                 str = str.Trim();
             if (checkEmpty && string.IsNullOrEmpty(str))
-                throw new ConfigurationErrorsException(string.Format("È±ÉÙ {0} µÄÅäÖÃĞÅÏ¢", key));
+                throw new ConfigurationErrorsException(string.Format("ç¼ºå°‘ {0} çš„é…ç½®ä¿¡æ¯", key));
             return string.IsNullOrEmpty(str) ? defaultValue : str;
         }
 
         /// <summary>
-        /// µÃµ½ÅäÖÃ
+        /// å¾—åˆ°é…ç½®
         /// </summary>
         /// <param name="key">KEY</param>
-        /// <param name="defaultValue">Ä¬ÈÏÖµ</param>
-        /// <param name="checkEmpty">ÊÇ·ñ¼ì²éÊÇ·ñÎª¿Õ</param>
-        /// <exception cref="ConfigurationErrorsException">ÅäÖÃĞÅÏ¢¶ªÊ§´íÎó</exception>
-        /// <returns>boolÀàĞÍ</returns>
+        /// <param name="defaultValue">é»˜è®¤å€¼</param>
+        /// <param name="checkEmpty">æ˜¯å¦æ£€æŸ¥æ˜¯å¦ä¸ºç©º</param>
+        /// <exception cref="ConfigurationErrorsException">é…ç½®ä¿¡æ¯ä¸¢å¤±é”™è¯¯</exception>
+        /// <returns>boolç±»å‹</returns>
         private static bool getBoolValue(string key, bool defaultValue = false, bool checkEmpty = false)
         {
             var str = getValueTemp(key);
             if (checkEmpty && string.IsNullOrEmpty(str))
-                throw new ConfigurationErrorsException(string.Format("È±ÉÙ {0} µÄÅäÖÃĞÅÏ¢", key));
+                throw new ConfigurationErrorsException(string.Format("ç¼ºå°‘ {0} çš„é…ç½®ä¿¡æ¯", key));
             bool result;
             return bool.TryParse(str, out result) ? result : defaultValue;
         }
 
         /// <summary>
-        /// µÃµ½ÅäÖÃ
+        /// å¾—åˆ°é…ç½®
         /// </summary>
         /// <param name="key">KEY</param>
-        /// <param name="defaultValue">Ä¬ÈÏÖµ</param>
-        /// <param name="checkEmpty">ÊÇ·ñ¼ì²éÊÇ·ñÎª¿Õ</param>
-        /// <exception cref="ConfigurationErrorsException">ÅäÖÃĞÅÏ¢¶ªÊ§´íÎó</exception>
-        /// <returns>intÀàĞÍ</returns>
+        /// <param name="defaultValue">é»˜è®¤å€¼</param>
+        /// <param name="checkEmpty">æ˜¯å¦æ£€æŸ¥æ˜¯å¦ä¸ºç©º</param>
+        /// <exception cref="ConfigurationErrorsException">é…ç½®ä¿¡æ¯ä¸¢å¤±é”™è¯¯</exception>
+        /// <returns>intç±»å‹</returns>
         private static int getIntValue(string key, int defaultValue = 0, bool checkEmpty = false)
         {
             var str = getValueTemp(key);
             if (checkEmpty && string.IsNullOrEmpty(str))
-                throw new ConfigurationErrorsException(string.Format("È±ÉÙ {0} µÄÅäÖÃĞÅÏ¢", key));
+                throw new ConfigurationErrorsException(string.Format("ç¼ºå°‘ {0} çš„é…ç½®ä¿¡æ¯", key));
             int result;
             return int.TryParse(str, out result) ? result : defaultValue;
         }
 
 
         /// <summary>
-        /// ¿Í»§¶Ë°æ±¾
+        /// å®¢æˆ·ç«¯ç‰ˆæœ¬
         /// </summary>
         public static string UcClientVersion
         {
             get { return getStringValue("UC_CLIENT_VERSION", "1.5.2"); }
         }
         /// <summary>
-        /// ·¢ĞĞÊ±¼ä
+        /// å‘è¡Œæ—¶é—´
         /// </summary>
         public static string UcClientRelease
         {
             get { return getStringValue("UC_CLIENT_RELEASE", "20101001"); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞíÉ¾³ıÓÃ»§
+        /// æ˜¯å¦å…è®¸åˆ é™¤ç”¨æˆ·
         /// </summary>
         public static bool ApiDeleteUser
         {
             get { return getBoolValue("API_DELETEUSER", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞíÖØÃüÃûÓÃ»§
+        /// æ˜¯å¦å…è®¸é‡å‘½åç”¨æˆ·
         /// </summary>
         public static bool ApiRenameUser
         {
             get { return getBoolValue("API_RENAMEUSER", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞíµÃµ½±êÇ©
+        /// æ˜¯å¦å…è®¸å¾—åˆ°æ ‡ç­¾
         /// </summary>
         public static bool ApiGetTag
         {
             get { return getBoolValue("API_GETTAG", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞíÍ¬²½µÇÂ¼
+        /// æ˜¯å¦å…è®¸åŒæ­¥ç™»å½•
         /// </summary>
         public static bool ApiSynLogin
         {
             get { return getBoolValue("API_SYNLOGIN", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞíÍ¬²½µÇ³ö
+        /// æ˜¯å¦å…è®¸åŒæ­¥ç™»å‡º
         /// </summary>
         public static bool ApiSynLogout
         {
             get { return getBoolValue("API_SYNLOGOUT", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞí¸ü¸ÄÃÜÂë
+        /// æ˜¯å¦å…è®¸æ›´æ”¹å¯†ç 
         /// </summary>
         public static bool ApiUpdatePw
         {
             get { return getBoolValue("API_UPDATEPW", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞí¸üĞÂ¹Ø¼ü×Ö
+        /// æ˜¯å¦å…è®¸æ›´æ–°å…³é”®å­—
         /// </summary>
         public static bool ApiUpdateBadWords
         {
             get { return getBoolValue("API_UPDATEBADWORDS", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞí¸üĞÂÓòÃû½âÎö»º´æ
+        /// æ˜¯å¦å…è®¸æ›´æ–°åŸŸåè§£æç¼“å­˜
         /// </summary>
         public static bool ApiUpdateHosts
         {
             get { return getBoolValue("API_UPDATEHOSTS", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞí¸üĞÂÓ¦ÓÃÁĞ±í
+        /// æ˜¯å¦å…è®¸æ›´æ–°åº”ç”¨åˆ—è¡¨
         /// </summary>
         public static bool ApiUpdateApps
         {
             get { return getBoolValue("API_UPDATEAPPS", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞí¸üĞÂ¿Í»§¶Ë»º´æ
+        /// æ˜¯å¦å…è®¸æ›´æ–°å®¢æˆ·ç«¯ç¼“å­˜
         /// </summary>
         public static bool ApiUpdateClient
         {
             get { return getBoolValue("API_UPDATECLIENT", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞí¸üĞÂÓÃ»§»ı·Ö
+        /// æ˜¯å¦å…è®¸æ›´æ–°ç”¨æˆ·ç§¯åˆ†
         /// </summary>
         public static bool ApiUpdateCredit
         {
             get { return getBoolValue("API_UPDATECREDIT", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞíÏòUCenterÌá¹©»ı·ÖÉèÖÃ
+        /// æ˜¯å¦å…è®¸å‘UCenteræä¾›ç§¯åˆ†è®¾ç½®
         /// </summary>
         public static bool ApiGetCreditSettings
         {
             get { return getBoolValue("API_GETCREDITSETTINGS", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞí»ñÈ¡ÓÃ»§µÄÄ³Ïî»ı·Ö
+        /// æ˜¯å¦å…è®¸è·å–ç”¨æˆ·çš„æŸé¡¹ç§¯åˆ†
         /// </summary>
         public static bool ApiGetCredit
         {
             get { return getBoolValue("API_GETCREDIT", true); }
         }
         /// <summary>
-        /// ÊÇ·ñÔÊĞí¸üĞÂÓ¦ÓÃ»ı·ÖÉèÖÃ
+        /// æ˜¯å¦å…è®¸æ›´æ–°åº”ç”¨ç§¯åˆ†è®¾ç½®
         /// </summary>
         public static bool ApiUpdateCreditSettings
         {
@@ -199,21 +199,21 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// ·µ»Ø³É¹¦
+        /// è¿”å›æˆåŠŸ
         /// </summary>
         public static string ApiReturnSucceed
         {
             get { return getStringValue("API_RETURN_SUCCEED", "1"); }
         }
         /// <summary>
-        /// ·µ»ØÊ§°Ü
+        /// è¿”å›å¤±è´¥
         /// </summary>
         public static string ApiReturnFailed
         {
             get { return getStringValue("API_RETURN_FAILED", "-1"); }
         }
         /// <summary>
-        /// ·µ»Ø½ûÓÃ
+        /// è¿”å›ç¦ç”¨
         /// </summary>
         public static string ApiReturnForbidden
         {
@@ -222,7 +222,7 @@ namespace DS.Web.UCenter
 
 
         /// <summary>
-        /// Óë UCenter µÄÍ¨ĞÅÃÜÔ¿, ÒªÓë UCenter ±£³ÖÒ»ÖÂ
+        /// ä¸ UCenter çš„é€šä¿¡å¯†é’¥, è¦ä¸ UCenter ä¿æŒä¸€è‡´
         /// </summary>
         public static string UcKey
         {
@@ -230,7 +230,7 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// UCenterµØÖ·
+        /// UCenteråœ°å€
         /// </summary>
         public static string UcApi
         {
@@ -244,7 +244,7 @@ namespace DS.Web.UCenter
 
         private static Encoding ucEncoding;
         /// <summary>
-        /// Ä¬ÈÏ±àÂë
+        /// é»˜è®¤ç¼–ç 
         /// </summary>
         public static Encoding UcEncoding
         {
@@ -255,7 +255,7 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// Ä¬ÈÏ±àÂëÃû³Æ
+        /// é»˜è®¤ç¼–ç åç§°
         /// </summary>
         public static string UcCharset
         {
@@ -277,7 +277,7 @@ namespace DS.Web.UCenter
         }
 
         /// <summary>
-        /// Ó¦ÓÃID
+        /// åº”ç”¨ID
         /// </summary>
         public static string UcAppid
         {

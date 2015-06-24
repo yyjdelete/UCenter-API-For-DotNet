@@ -1,13 +1,13 @@
-using System.Collections.Specialized;
+ï»¿using System.Collections.Specialized;
 using System.Text;
 using System.Web;
 
 namespace DS.Web.UCenter.Api
 {
     /// <summary>
-    /// Requser²ÎÊı
-    /// Dozer °æÈ¨ËùÓĞ
-    /// ÔÊĞí¸´ÖÆ¡¢ĞŞ¸Ä£¬µ«Çë±£ÁôÎÒµÄÁªÏµ·½Ê½£¡
+    /// Requserå‚æ•°
+    /// Dozer ç‰ˆæƒæ‰€æœ‰
+    /// å…è®¸å¤åˆ¶ã€ä¿®æ”¹ï¼Œä½†è¯·ä¿ç•™æˆ‘çš„è”ç³»æ–¹å¼ï¼
     /// http://www.dozer.cc
     /// mailto:dozer.cc@gmail.com
     /// </summary>
@@ -21,24 +21,24 @@ namespace DS.Web.UCenter.Api
         private string Code { get; set; }
 
         /// <summary>
-        /// Ê±¼ä
+        /// æ—¶é—´
         /// </summary>
         public long Time { get; private set; }
 
         /// <summary>
-        /// Query²ÎÊı
+        /// Queryå‚æ•°
         /// </summary>
         public NameValueCollection QueryString { get; private set; }
 
         private string _formData;
         /// <summary>
-        /// Form²ÎÊı
+        /// Formå‚æ•°
         /// </summary>
         public string FormData
         {
             get
             {
-                //TODO: ĞŞ¸´°üº¬ÌØ¶¨ÄÚÈİ(ÔİÎŞÑù±¾)Ê±±¨´íµÄÎÊÌâ
+                //TODO: ä¿®å¤åŒ…å«ç‰¹å®šå†…å®¹(æš‚æ— æ ·æœ¬)æ—¶æŠ¥é”™çš„é—®é¢˜
                 if (_formData == null)
                     _formData = HttpUtility.UrlDecode(request.Form.ToString(), UcConfig.UcEncoding);
                 return _formData;
@@ -56,7 +56,7 @@ namespace DS.Web.UCenter.Api
 
         private readonly HttpRequest request;
         /// <summary>
-        /// ¹¹Ôìº¯Êı
+        /// æ„é€ å‡½æ•°
         /// </summary>
         /// <param name="request">Request</param>
         public UcRequestArguments(HttpRequest request)
