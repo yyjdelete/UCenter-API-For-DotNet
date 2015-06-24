@@ -271,7 +271,7 @@ namespace DS.Web.UCenter
         /// <returns></returns>
         public static string GetUserAgent()
         {
-            return (HttpContext.Current != null) ? HttpContext.Current.Request.ServerVariables["Http_User_Agent"] : "Mozilla/4.0(compatible;MSIE6.0;)";
+            return ((HttpContext.Current != null) ? HttpContext.Current.Request.ServerVariables["Http_User_Agent"] : null) ?? "Mozilla/4.0(compatible;MSIE6.0;)";
         }
 
         /// <summary>
