@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -35,7 +36,18 @@ namespace DS.Web.UCenter.Client
         /// <returns></returns>
         protected string SendArgs(IDictionary<string, string> args, string model, string action)
         {
+            return SendPost(GetArgsString(args, model, action));
+        }
 
+        /// <summary>
+        /// 根据参数生成待发送的字符串
+        /// </summary>
+        /// <param name="args">参数</param>
+        /// <param name="model">Model</param>
+        /// <param name="action">Action</param>
+        /// <returns></returns>
+        protected string GetArgsString(IDictionary<string, string> args, string model, string action)
+        {
             var input = GetInput(args);
             var api = new Dictionary<string, string>
                           {
@@ -46,7 +58,7 @@ namespace DS.Web.UCenter.Client
                               {"appid", UcConfig.UcAppid}
                           };
 
-            return SendPost(ArgsToString(api));
+            return ArgsToString(api);
         }
 
         /// <summary>
@@ -72,9 +84,7 @@ namespace DS.Web.UCenter.Client
         /// <returns></returns>
         protected string SendPost(string args)
         {
-            var encoding = Encoding.GetEncoding(UcConfig.UcCharset);
-            var data = encoding.GetBytes(args);
-            var request = getPostRequest(data);
+            var request = getPostRequest(args);
             return getStr(request).Trim();
         }
 
@@ -86,7 +96,7 @@ namespace DS.Web.UCenter.Client
         /// <returns></returns>
         protected string SendGet(string url,IEnumerable<KeyValuePair<string, string>> args)
         {
-            var request = getGetRequest(url + "?" + ArgsToString(args));
+            var request = getGetRequest(new Uri(url + "?" + ArgsToString(args)));
             return getStr(request).Trim();
         }
 
@@ -105,7 +115,7 @@ namespace DS.Web.UCenter.Client
                     using (var stream = response.GetResponseStream())
                     {
                         if (stream == null) return "";
-                        using (var reader = new StreamReader(stream, Encoding.GetEncoding(UcConfig.UcCharset)))
+                        using (var reader = new StreamReader(stream, UcConfig.UcEncoding))
                         {
                             return reader.ReadToEnd();
                         }
@@ -121,14 +131,26 @@ namespace DS.Web.UCenter.Client
         /// <summary>
         /// 得到Requset对象
         /// </summary>
-        /// <param name="url">地址</param>
+        /// <param name="uri">地址</param>
         /// <returns></returns>
-        private HttpWebRequest getGetRequest(string url)
+        private HttpWebRequest getGetRequest(Uri uri)
         {
-            var request = (HttpWebRequest)WebRequest.Create(url);
+            var request = CreateHttpWebRequest(uri);
+            request.Method = "GET";
+            return request;
+        }
+
+        /// <summary>
+        /// 创建基本的Requset对象
+        /// </summary>
+        /// <param name="uri">地址</param>
+        /// <returns></returns>
+        private HttpWebRequest CreateHttpWebRequest(Uri uri)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(uri);
             request.UserAgent = GetUserAgent();
             request.Headers.Add(HttpRequestHeader.AcceptLanguage, "zh-cn");
-            request.Method = "GET";
+            request.ServicePoint.Expect100Continue = false;
             return request;
         }
 
@@ -137,18 +159,21 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="data">POST数据</param>
         /// <returns></returns>
-        private HttpWebRequest getPostRequest(byte[] data)
+        private HttpWebRequest getPostRequest(string data)
         {
-            var request = (HttpWebRequest)WebRequest.Create(GetUrl());
-            request.UserAgent = GetUserAgent();
-            request.Headers.Add(HttpRequestHeader.AcceptLanguage, "zh-cn");
+            var request = CreateHttpWebRequest(GetUrl());
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = data.Length;
+            //request.ContentLength = data.Length;
 
-            var newStream = request.GetRequestStream();
-            newStream.Write(data, 0, data.Length);
-            newStream.Close();
+            var encoding = UcConfig.UcEncoding;
+            using (var newStream = request.GetRequestStream())
+            {
+                using (var sr = new StreamWriter(newStream, encoding))
+                {
+                    sr.Write(data);
+                }
+            }
 
             return request;
         }
@@ -157,9 +182,9 @@ namespace DS.Web.UCenter.Client
         /// 得到 Url
         /// </summary>
         /// <returns></returns>
-        protected virtual string GetUrl()
+        protected virtual Uri GetUrl()
         {
-            return UcConfig.UcApi + "index.php";
+            return new Uri(UcConfig.UcApi + "index.php");
         }
 
         /// <summary>

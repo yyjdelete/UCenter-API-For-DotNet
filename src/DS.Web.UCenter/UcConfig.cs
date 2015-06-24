@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Configuration;
+using System.Text;
 
 namespace DS.Web.UCenter
 {
@@ -16,14 +17,19 @@ namespace DS.Web.UCenter
         private static IDictionary<string,string> Items{get { return _items ?? (_items = new Dictionary<string, string>()); }}
 
         /// <summary>
-        /// 读取键值，并作缓存
+        /// 读取键值，并作缓存(非线程安全)
         /// </summary>
         /// <param name="key">键</param>
         /// <returns>值</returns>
         private static string getValueTemp(string key)
         {
-            if (!Items.ContainsKey(key)) Items.Add(key, ConfigurationManager.AppSettings[key]);
-            return Items[key];
+            string val;
+            if (!Items.TryGetValue(key, out val))
+            {
+                val = ConfigurationManager.AppSettings[key];
+                Items[key] = val;
+            }
+            return val;
         }
 
         /// <summary>
@@ -37,9 +43,11 @@ namespace DS.Web.UCenter
         private static string getStringValue(string key, string defaultValue = "", bool checkEmpty = false)
         {
             var str = getValueTemp(key);
+            if (str != null)
+                str = str.Trim();
             if (checkEmpty && string.IsNullOrEmpty(str))
                 throw new ConfigurationErrorsException(string.Format("缺少 {0} 的配置信息", key));
-            return string.IsNullOrEmpty(str) ? defaultValue : str.Trim();
+            return string.IsNullOrEmpty(str) ? defaultValue : str;
         }
 
         /// <summary>
@@ -56,7 +64,7 @@ namespace DS.Web.UCenter
             if (checkEmpty && string.IsNullOrEmpty(str))
                 throw new ConfigurationErrorsException(string.Format("缺少 {0} 的配置信息", key));
             bool result;
-            return bool.TryParse(str,out result) ? result : defaultValue;
+            return bool.TryParse(str, out result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -96,7 +104,7 @@ namespace DS.Web.UCenter
         /// </summary>
         public static bool ApiDeleteUser
         {
-            get { return getBoolValue("API_DELETEUSER",true); }
+            get { return getBoolValue("API_DELETEUSER", true); }
         }
         /// <summary>
         /// 是否允许重命名用户
@@ -195,21 +203,21 @@ namespace DS.Web.UCenter
         /// </summary>
         public static string ApiReturnSucceed
         {
-            get { return getStringValue("API_RETURN_SUCCEED","1"); }
+            get { return getStringValue("API_RETURN_SUCCEED", "1"); }
         }
         /// <summary>
         /// 返回失败
         /// </summary>
         public static string ApiReturnFailed
         {
-            get { return getStringValue("API_RETURN_FAILED","-1"); }
+            get { return getStringValue("API_RETURN_FAILED", "-1"); }
         }
         /// <summary>
         /// 返回禁用
         /// </summary>
         public static string ApiReturnForbidden
         {
-            get { return getStringValue("API_RETURN_FORBIDDEN","-2"); }
+            get { return getStringValue("API_RETURN_FORBIDDEN", "-2"); }
         }
 
 
@@ -234,14 +242,26 @@ namespace DS.Web.UCenter
             }
         }
 
+        private static Encoding ucEncoding;
         /// <summary>
         /// 默认编码
+        /// </summary>
+        public static Encoding UcEncoding
+        {
+            get
+            {
+                return ucEncoding ?? (ucEncoding = Encoding.GetEncoding(UcCharset));
+            }
+        }
+
+        /// <summary>
+        /// 默认编码名称
         /// </summary>
         public static string UcCharset
         {
             get
             {
-                return getStringValue("UC_CHARSET",checkEmpty:true);
+                return getStringValue("UC_CHARSET", checkEmpty:true);
             }
         }
 

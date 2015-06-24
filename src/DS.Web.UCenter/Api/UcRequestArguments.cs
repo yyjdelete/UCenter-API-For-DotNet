@@ -50,7 +50,7 @@ namespace DS.Web.UCenter.Api
         public UcRequestArguments(HttpRequest request)
         {
             Code = request.QueryString["code"];
-            FormData = HttpUtility.UrlDecode(request.Form.ToString(), Encoding.GetEncoding(UcConfig.UcCharset));
+            FormData = HttpUtility.UrlDecode(request.Form.ToString(), UcConfig.UcEncoding);
             QueryString = HttpUtility.ParseQueryString(UcUtility.AuthCodeDecode(Code));
             Action = QueryString["action"];
             long time;

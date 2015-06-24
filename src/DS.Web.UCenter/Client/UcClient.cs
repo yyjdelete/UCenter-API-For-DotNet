@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace DS.Web.UCenter.Client
@@ -975,12 +976,12 @@ namespace DS.Web.UCenter.Client
         /// <returns></returns>
         private bool toBool(string input)
         {
+            if ("false".Equals(input, StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(input)) return false;
             int result;
             if (int.TryParse(input, out result))
             {
                 return result > 0 ? true : false;
             }
-            if (input.ToLower() == "false" || string.IsNullOrEmpty(input)) return false;
             return true;
         }
 

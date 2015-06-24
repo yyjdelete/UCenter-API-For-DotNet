@@ -20,8 +20,8 @@ namespace DS.Web.UCenter
         /// <returns></returns>
         static public int GetInt(this IDictionary data, string key)
         {
-            var result = default(int);
-            if (data != null) if (data.Contains(key)) int.TryParse(data[key].ToString(), out result);
+            int result;
+            TryGet(data, key, out result);
             return result;
         }
 
@@ -34,8 +34,8 @@ namespace DS.Web.UCenter
         /// <returns></returns>
         static public string GetString(this IDictionary data, string key)
         {
-            var result = string.Empty;
-            if (data != null) if (data.Contains(key)) result = data[key].ToString();
+            string result;
+            TryGet(data, key, out result, String.Empty);
             return result;
         }
 
@@ -50,7 +50,11 @@ namespace DS.Web.UCenter
         static public bool GetBool(this IDictionary data, string key, string compare = "1")
         {
             var result = default(bool);
-            if (data != null) if (data.Contains(key)) result = (data[key].ToString() == compare);
+            object obj;
+            if (TryGetRaw(data, key, out obj))
+            {
+                result = Object.Equals(compare, obj);
+            }
             return result;
         }
 
@@ -64,7 +68,11 @@ namespace DS.Web.UCenter
         static public DateTime GetDateTime(this IDictionary data, string key)
         {
             var result = default(DateTime);
-            if (data != null) if (data.Contains(key)) result = UcUtility.PhpTimeToDateTime(long.Parse(data[key].ToString()));
+            long tmp;
+            if (TryGet(data, key, out tmp))
+            {
+                result = UcUtility.PhpTimeToDateTime(long.Parse(data[key].ToString()));
+            }
             return result;
         }
 
@@ -78,7 +86,7 @@ namespace DS.Web.UCenter
         static public double GetDouble(this IDictionary data, string key)
         {
             var result = default(double);
-            if (data != null) if (data.Contains(key)) double.TryParse(data[key].ToString(), out result);
+            TryGet(data, key, out result);
             return result;
         }
 
@@ -92,8 +100,40 @@ namespace DS.Web.UCenter
         static public Hashtable GetHashtable(this IDictionary data, string key)
         {
             var result = default(Hashtable);
-            if (data != null) if (data.Contains(key)) if (data[key] is Hashtable) result = (Hashtable)data[key];
+            object obj;
+            if (TryGetRaw(data, key, out obj))
+            {
+                if (obj is Hashtable)
+                    result = (Hashtable)obj;
+            }
             return result;
+        }
+
+        private static bool TryGetRaw(this IDictionary dict, string key, out object result)
+        {
+            result = default(object);
+            if (dict != null && dict.Contains(key))
+            {
+                result = dict[key];
+                return true;
+            }
+            return false;
+        }
+
+        private static bool TryGet<T>(this IDictionary dict, string key, out T result, T defVal=default(T))
+        {
+            result = defVal;
+            object obj = default(object);
+            if (TryGetRaw(dict, key, out obj))
+            {
+                try
+                {
+                    result = (T)Convert.ChangeType(obj, typeof(T));
+                    return true;
+                }
+                catch { }
+            }
+            return false;
         }
     }
 }

@@ -15,10 +15,9 @@ namespace DS.Web.UCenter
     /// </summary>
     public static class UcUtility
     {
-        private static Encoding _encode;
         private static Encoding Encode
         {
-            get { return _encode ?? (_encode = Encoding.GetEncoding(UcConfig.UcCharset)); }
+            get { return UcConfig.UcEncoding; }
         }
 
         #region AuthCode
@@ -282,7 +281,7 @@ namespace DS.Web.UCenter
         /// <returns></returns>
         public static string BytesToString(byte[] b)
         {
-            return new string(Encode.GetChars(b));
+            return Encode.GetString(b);
         }
 
         /// <summary>
@@ -360,11 +359,8 @@ namespace DS.Web.UCenter
             if (length < 0) length = 0;
             if (length > b.Length || start + length > b.Length) length = b.Length - start;
             var result = new byte[length];
-            var index = 0;
-            for (var k = start; k < start + length; k++)
-            {
-                result[index++] = b[k];
-            }
+            //Array.Copy(b, start, result, 0, length);
+            Buffer.BlockCopy(b, start * sizeof(byte), result, 0, length * sizeof(byte));
             return result;
         }
 
@@ -402,7 +398,7 @@ namespace DS.Web.UCenter
 
 
         /// <summary>
-        /// 随机字符串
+        /// 随机字节数组
         /// </summary>
         /// <param name="lens">长度</param>
         /// <returns></returns>
