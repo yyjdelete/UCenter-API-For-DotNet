@@ -35,7 +35,7 @@ namespace DS.Web.UCenter
         static public string GetString(this IDictionary data, string key)
         {
             string result;
-            TryGet(data, key, out result, String.Empty);
+            TryGet(data, key, out result, "");
             return result;
         }
 
