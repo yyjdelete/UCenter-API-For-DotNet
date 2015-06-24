@@ -182,13 +182,14 @@ namespace DS.Web.UCenter.Client
             return request;
         }
 
+        private static Uri baseUri;
         /// <summary>
         /// 得到 Url
         /// </summary>
         /// <returns></returns>
         protected virtual Uri GetUrl()
         {
-            return new Uri(UcConfig.UcApi + "index.php");
+            return baseUri ?? (baseUri = new Uri(UcConfig.UcApi + "index.php"));
         }
 
         /// <summary>
