@@ -29,10 +29,21 @@ namespace DS.Web.UCenter.Api
         /// Query参数
         /// </summary>
         public NameValueCollection QueryString { get; private set; }
+
+        private string _formData;
         /// <summary>
         /// Form参数
         /// </summary>
-        public string FormData { get; private set; }
+        public string FormData
+        {
+            get
+            {
+                //TODO: 修复包含特定内容(暂无样本)时报错的问题
+                if (_formData == null)
+                    _formData = HttpUtility.UrlDecode(request.Form.ToString(), UcConfig.UcEncoding);
+                return _formData;
+            }
+        }
 
         /// <summary>
         /// 
@@ -43,14 +54,16 @@ namespace DS.Web.UCenter.Api
         /// </summary>
         public bool IsAuthracationExpiried { get; private set; }
 
+        private readonly HttpRequest request;
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="request">Request</param>
         public UcRequestArguments(HttpRequest request)
         {
+            this.request = request;
             Code = request.QueryString["code"];
-            FormData = HttpUtility.UrlDecode(request.Form.ToString(), UcConfig.UcEncoding);
+            //FormData = HttpUtility.UrlDecode(request.Form.ToString(), UcConfig.UcEncoding);
             QueryString = HttpUtility.ParseQueryString(UcUtility.AuthCodeDecode(Code));
             Action = QueryString["action"];
             long time;
