@@ -61,7 +61,7 @@ namespace DS.Web.UCenter
 
             return operation == AuthCodeMethod.Decode
                        ? check(keyb, result)
-                       : BytesToString(keyc) + Convert.ToBase64String(result).Replace("=", "");
+                       : BytesToString(keyc) + Convert.ToBase64String(result).TrimEnd('=');
         }
 
         /// <summary>
@@ -271,6 +271,7 @@ namespace DS.Web.UCenter
         /// <returns></returns>
         public static string GetUserAgent()
         {
+            //TODO: 在UA不满足条件时不使用UA
             return ((HttpContext.Current != null) ? HttpContext.Current.Request.ServerVariables["Http_User_Agent"] : null) ?? "Mozilla/4.0(compatible;MSIE6.0;)";
         }
 
@@ -284,44 +285,60 @@ namespace DS.Web.UCenter
             return Encode.GetString(b);
         }
 
+
+        private static string[] _hexMap;
+        private static string[] GetHexMap()
+        {
+            if (_hexMap == null)
+            {
+                var tmp = new string[256];
+
+                for (int a = 0; a <= 0xff; ++a)
+                {
+                    if (a < 16)
+                    { tmp[a] = "0" + a.ToString("x"); }
+                    else
+                    { tmp[a] = a.ToString("x"); }
+                }
+                _hexMap = tmp;
+            }
+            return _hexMap;
+        }
+
+        private static string Md5Raw(byte[] b)
+        {
+            byte[] hash;
+            using (var cryptHandler = MD5.Create())
+            {
+                hash = cryptHandler.ComputeHash(b);
+            }
+            StringBuilder sb = new StringBuilder(hash.Length * 2);
+            var hexMap = GetHexMap();
+            foreach (var a in hash)
+            {
+                sb.Append(hexMap[a]);
+            }
+            return sb.ToString();
+        }
+
         /// <summary>
         /// 计算Md5
         /// </summary>
         /// <param name="b">byte数组</param>
-        /// <returns>计算好的字符串</returns>
+        /// <returns>计算好的字符串(小写)的字节数组</returns>
         public static byte[] Md5(byte[] b)
         {
-            var cryptHandler = new MD5CryptoServiceProvider();
-            var hash = cryptHandler.ComputeHash(b);
-            var ret = "";
-            foreach (var a in hash)
-            {
-                if (a < 16)
-                { ret += "0" + a.ToString("x"); }
-                else
-                { ret += a.ToString("x"); }
-            }
-            return Encode.GetBytes(ret);
+            return Encode.GetBytes(Md5Raw(b));
         }
 
         /// <summary>
         /// 计算Md5
         /// </summary>
         /// <param name="str">byte数组</param>
-        /// <returns>计算好的字符串</returns>
+        /// <returns>计算好的字符串(小写)</returns>
         public static string Md5(string str)
         {
-            var cryptHandler = new MD5CryptoServiceProvider();
-            var hash = cryptHandler.ComputeHash(Encode.GetBytes(str));
-            var ret = "";
-            foreach (var a in hash)
-            {
-                if (a < 16)
-                { ret += "0" + a.ToString("x"); }
-                else
-                { ret += a.ToString("x"); }
-            }
-            return ret;
+            return Md5Raw(Encode.GetBytes(str));
         }
 
         /// <summary>
@@ -337,10 +354,9 @@ namespace DS.Web.UCenter
 
             foreach (var bs in bytes)
             {
-                foreach (var b in bs)
-                {
-                    result[index++] = b;
-                }
+                //Array.Copy(bs, 0, result, index, bs.Length);
+                Buffer.BlockCopy(bs, 0, result, index * sizeof(byte), bs.Length * sizeof(byte));
+                index += bs.Length;
             }
             return result;
         }
@@ -374,15 +390,17 @@ namespace DS.Web.UCenter
             return DateTimeToPhpTime(DateTime.UtcNow);
         }
 
+        ////new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).Ticks
+        private const long UNIX_EPOCH = 621355968000000000;
+        private const int e7 = 10000000;
         /// <summary>
         /// PhpTime转DataTime
         /// </summary>
         /// <returns></returns>
         public static DateTime PhpTimeToDateTime(long time)
         {
-            var timeStamp = new DateTime(1970, 1, 1);
-            var t = (time + 8 * 60 * 60) * 10000000 + timeStamp.Ticks;
-            return new DateTime(t);
+            var t = time * e7 + UNIX_EPOCH;
+            return new DateTime(t, DateTimeKind.Utc).ToLocalTime();
         }
 
         /// <summary>
@@ -392,8 +410,7 @@ namespace DS.Web.UCenter
         /// <returns></returns>
         public static long DateTimeToPhpTime(DateTime datetime)
         {
-            var timeStamp = new DateTime(1970, 1, 1);
-            return (datetime.Ticks - timeStamp.Ticks) / 10000000;
+            return (datetime.Ticks - UNIX_EPOCH) / e7;
         }
 
         private static readonly Random random = new Random();
@@ -429,21 +446,24 @@ namespace DS.Web.UCenter
         /// <returns></returns>
         public static string PhpUrlEncode(string str)
         {
-            var result = string.Empty;
+            StringBuilder sb = new StringBuilder(str.Length);
             const string keys = "_-.1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
             for (var i = 0; i < str.Length; i++)
             {
                 var str4 = str.Substring(i, 1);
                 if (keys.Contains(str4))
                 {
-                    result = result + str4;
+                    sb.Append(str4);
                 }
                 else
                 {
-                    result = Encode.GetBytes(str4).Aggregate(result, (current, n) => current + "%" + n.ToString("X"));
+                    foreach (var n in Encode.GetBytes(str4))
+                    {
+                        sb.Append('%').Append(n.ToString("X"));
+                    }
                 }
             }
-            return result;
+            return sb.ToString();
         }
 
         #endregion

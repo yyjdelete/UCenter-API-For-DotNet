@@ -915,7 +915,7 @@ namespace DS.Web.UCenter.Client
         #region 函数
         private string getFlashPlayerCode(string movie)
         {
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(1024);//815
             sb.AppendLine("<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0\" width=\"447\" height=\"477\" id=\"mycamera\" align=\"middle\">");
             sb.AppendLine("<param name=\"allowScriptAccess\" value=\"always\" />");
             sb.AppendLine("<param name=\"scale\" value=\"exactfit\" />");

@@ -39,9 +39,10 @@ namespace DS.Web.UCenter
             {
                 if (entry.Value is Hashtable)
                 {
-                    sb.AppendLine("<item id=\"" + entry.Key + "\">");
-                    sb.AppendLine(serialize((Hashtable)entry.Value, htmlOn, false ));
-                    sb.AppendLine("</item>");
+                    sb
+                        .Append("<item id=\"").Append(entry.Key).Append("\">").AppendLine()
+                        .AppendLine(serialize((Hashtable)entry.Value, htmlOn, false ))
+                        .AppendLine("</item>");
                 }
                 else
                 {
@@ -65,8 +66,9 @@ namespace DS.Web.UCenter
         private void getHeader(bool isRoot, StringBuilder sb)
         {
             if (!isRoot) return;
-            sb.AppendLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-            sb.AppendLine("<root>");
+            sb
+                .AppendLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>")
+                .AppendLine("<root>");
         }
 
         #region 输出
