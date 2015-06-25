@@ -1038,7 +1038,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="questionId">登陆问题</param>
         /// <param name="answer">答案</param>
         /// <returns></returns>
-        public async Task<UcUserRegister> UserRegisterAsync(string userName, string passWord, string email, int questionId = 0, string answer = "")
+        public virtual async Task<UcUserRegister> UserRegisterAsync(string userName, string passWord, string email, int questionId = 0, string answer = "")
         {
             var args = new Dictionary<string, string>
                            {
@@ -1061,7 +1061,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="questionId">问题ID</param>
         /// <param name="answer">答案</param>
         /// <returns></returns>
-        public async Task<UcUserLogin> UserLoginAsync(string userName, string passWord, LoginMethod loginMethod = LoginMethod.UserName, bool checkques = false, int questionId = 0, string answer = "")
+        public virtual async Task<UcUserLogin> UserLoginAsync(string userName, string passWord, LoginMethod loginMethod = LoginMethod.UserName, bool checkques = false, int questionId = 0, string answer = "")
         {
             var args = new Dictionary<string, string>
                            {
@@ -1080,7 +1080,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="userName">用户名</param>
         /// <returns></returns>
-        public Task<UcUserInfo> UserInfoAsync(string userName)
+        public virtual Task<UcUserInfo> UserInfoAsync(string userName)
         {
             return userInfoAsync(userName, InfoMethod.UserName);
         }
@@ -1090,7 +1090,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public Task<UcUserInfo> UserInfoAsync(int uid)
+        public virtual Task<UcUserInfo> UserInfoAsync(int uid)
         {
             return userInfoAsync(uid.ToString(), InfoMethod.Uid);
         }
@@ -1101,7 +1101,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="userName">用户名/Uid</param>
         /// <param name="infoMethod">查询方式</param>
         /// <returns></returns>
-        private async Task<UcUserInfo> userInfoAsync(string userName, InfoMethod infoMethod)
+        protected virtual async Task<UcUserInfo> userInfoAsync(string userName, InfoMethod infoMethod)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1125,7 +1125,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="questionId">密码提示问题编号</param>
         /// <param name="answer">密码提示问题答案</param>
         /// <returns></returns>
-        public async Task<UcUserEdit> UserEditAsync(string userName, string oldPw, string newPw, string email, bool ignoreOldPw = false, int questionId = 0, string answer = "")
+        public virtual async Task<UcUserEdit> UserEditAsync(string userName, string oldPw, string newPw, string email, bool ignoreOldPw = false, int questionId = 0, string answer = "")
         {
             var args = new Dictionary<string, string>
                            {
@@ -1145,7 +1145,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public async Task<bool> UserDeleteAsync(params int[] uid)
+        public virtual async Task<bool> UserDeleteAsync(params int[] uid)
         {
             var args = new Dictionary<string, string>();
             addArray(args, "uid", uid);
@@ -1158,7 +1158,7 @@ namespace DS.Web.UCenter.Client
         /// (异步)删除用户头像
         /// </summary>
         /// <param name="uid">Uid</param>
-        public async Task UserDeleteAvatarAsync(params int[] uid)
+        public virtual async Task UserDeleteAvatarAsync(params int[] uid)
         {
             var args = new Dictionary<string, string>();
             addArray(args, "uid", uid);
@@ -1170,7 +1170,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns>同步登陆的 Html 代码</returns>
-        public async Task<string> UserSynloginAsync(int uid)
+        public virtual async Task<string> UserSynloginAsync(int uid)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1183,7 +1183,7 @@ namespace DS.Web.UCenter.Client
         /// (异步)同步登出
         /// </summary>
         /// <returns>同步登出的 Html 代码</returns>
-        public async Task<string> UserSynLogoutAsync()
+        public virtual async Task<string> UserSynLogoutAsync()
         {
             var args = new Dictionary<string, string>();
             return await SendArgsAsync(args, UcUserModelName.ModelName, UcUserModelName.ActionSynLogout);
@@ -1194,7 +1194,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="email">Email</param>
         /// <returns></returns>
-        public async Task<UcUserCheckEmail> UserCheckEmailAsync(string email)
+        public virtual async Task<UcUserCheckEmail> UserCheckEmailAsync(string email)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1209,7 +1209,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="admin">操作管理员</param>
         /// <param name="userName">用户名</param>
         /// <returns></returns>
-        public async Task<bool> UserAddProtectedAsync(string admin, params string[] userName)
+        public virtual async Task<bool> UserAddProtectedAsync(string admin, params string[] userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1225,7 +1225,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="admin">操作管理员</param>
         /// <param name="userName">用户名</param>
         /// <returns></returns>
-        public async Task<bool> UserDeleteProtectedAsync(string admin, params string[] userName)
+        public virtual async Task<bool> UserDeleteProtectedAsync(string admin, params string[] userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1239,7 +1239,7 @@ namespace DS.Web.UCenter.Client
         /// (异步)得到受保护用户
         /// </summary>
         /// <returns></returns>
-        public async Task<UcUserProtecteds> UserGetProtectedAsync()
+        public virtual async Task<UcUserProtecteds> UserGetProtectedAsync()
         {
             var args = new Dictionary<string, string>();
             return new UcUserProtecteds(await SendArgsAsync(args, UcUserModelName.ModelName, UcUserModelName.ActionGetProtected));
@@ -1254,7 +1254,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="passWord">密码</param>
         /// <param name="email">Email</param>
         /// <returns></returns>
-        public async Task<UcUserMerge> UserMergeAsync(string oldUserName, string newUserName, int uid, string passWord, string email)
+        public virtual async Task<UcUserMerge> UserMergeAsync(string oldUserName, string newUserName, int uid, string passWord, string email)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1271,7 +1271,7 @@ namespace DS.Web.UCenter.Client
         /// (异步)移除重名用户记录
         /// </summary>
         /// <param name="userName">用户名</param>
-        public async Task UserMergeRemoveAsync(string userName)
+        public virtual async Task UserMergeRemoveAsync(string userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1288,7 +1288,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">Uid</param>
         /// <param name="credit">积分编号</param>
         /// <returns></returns>
-        public async Task<int> UserGetCreditAsync(int appId, int uid, int credit)
+        public virtual async Task<int> UserGetCreditAsync(int appId, int uid, int credit)
         {
             int result;
             var args = new Dictionary<string, string>
@@ -1308,7 +1308,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public async Task<UcPmCheckNew> PmCheckNewAsync(int uid)
+        public virtual async Task<UcPmCheckNew> PmCheckNewAsync(int uid)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1327,7 +1327,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="message">消息内容</param>
         /// <param name="msgTo">收件人ID</param>
         /// <returns></returns>
-        public Task<UcPmSend> PmSendAsync(int fromUid, int replyPmId, string subject, string message, params int[] msgTo)
+        public virtual Task<UcPmSend> PmSendAsync(int fromUid, int replyPmId, string subject, string message, params int[] msgTo)
         {
             return pmSendAsync(fromUid, string.Join(",", intToString(msgTo)), subject, message, replyPmId);
         }
@@ -1341,7 +1341,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="message">消息内容</param>
         /// <param name="msgTo">收件人用户名</param>
         /// <returns></returns>
-        public Task<UcPmSend> PmSendAsync(int fromUid, int replyPmId, string subject, string message, params string[] msgTo)
+        public virtual Task<UcPmSend> PmSendAsync(int fromUid, int replyPmId, string subject, string message, params string[] msgTo)
         {
             return pmSendAsync(fromUid, string.Join(",", msgTo), subject, message, replyPmId, SendMethod.UserName);
         }
@@ -1377,7 +1377,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="folder">文件夹</param>
         /// <param name="pmIds">短消息ID</param>
         /// <returns>删除的数量</returns>
-        public async Task<int> PmDeleteAsync(int uid, PmDeleteFolder folder, params int[] pmIds)
+        public virtual async Task<int> PmDeleteAsync(int uid, PmDeleteFolder folder, params int[] pmIds)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1394,7 +1394,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">发件人</param>
         /// <param name="toUids">收件人</param>
         /// <returns>删除的数量</returns>
-        public async Task<int> PmDeleteAsync(int uid, params int[] toUids)
+        public virtual async Task<int> PmDeleteAsync(int uid, params int[] toUids)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1413,7 +1413,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="toUids">收件人</param>
         /// <param name="pmIds">短消息ID</param>
         /// <param name="readStatus">阅读状态</param>
-        public Task PmReadStatusAsync(int uid, int toUids, int pmIds = 0, ReadStatus readStatus = ReadStatus.Readed)
+        public virtual Task PmReadStatusAsync(int uid, int toUids, int pmIds = 0, ReadStatus readStatus = ReadStatus.Readed)
         {
             return PmReadStatusAsync(uid, new[] { toUids }, new[] { pmIds }, readStatus);
         }
@@ -1426,7 +1426,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="toUids">收件人数组</param>
         /// <param name="pmIds">短消息ID数组</param>
         /// <param name="readStatus">阅读状态</param>
-        public async Task PmReadStatusAsync(int uid, IEnumerable<int> toUids, IEnumerable<int> pmIds, ReadStatus readStatus = ReadStatus.Readed)
+        public virtual async Task PmReadStatusAsync(int uid, IEnumerable<int> toUids, IEnumerable<int> pmIds, ReadStatus readStatus = ReadStatus.Readed)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1449,7 +1449,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="filter">过滤方式</param>
         /// <param name="msgLen">截取短消息内容文字的长度，0 为不截取，默认值 0</param>
         /// <returns></returns>
-        public async Task<UcPmList> PmListAsync(int uid, int page = 1, int pageSize = 10, PmReadFolder folder = PmReadFolder.NewBox, PmReadFilter filter = PmReadFilter.NewPm, int msgLen = 0)
+        public virtual async Task<UcPmList> PmListAsync(int uid, int page = 1, int pageSize = 10, PmReadFolder folder = PmReadFolder.NewBox, PmReadFilter filter = PmReadFilter.NewPm, int msgLen = 0)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1474,7 +1474,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="toUid">收件人ID</param>
         /// <param name="dateRange">日期范围</param>
         /// <returns></returns>
-        public async Task<UcPmView> PmViewAsync(int uid, int pmId, int toUid = 0, DateRange dateRange = DateRange.Today)
+        public virtual async Task<UcPmView> PmViewAsync(int uid, int pmId, int toUid = 0, DateRange dateRange = DateRange.Today)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1493,7 +1493,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="type">类型</param>
         /// <param name="pmId">短消息ID</param>
         /// <returns></returns>
-        public async Task<UcPm> PmViewNodeAsync(int uid, ViewType type = ViewType.Specified, int pmId = 0)
+        public virtual async Task<UcPm> PmViewNodeAsync(int uid, ViewType type = ViewType.Specified, int pmId = 0)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1508,7 +1508,7 @@ namespace DS.Web.UCenter.Client
         /// (异步)忽略未读消息提示
         /// </summary>
         /// <param name="uid">Uid</param>
-        public async Task PmIgnoreAsync(int uid)
+        public virtual async Task PmIgnoreAsync(int uid)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1524,7 +1524,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public async Task<UcPmBlacklsGet> PmBlacklsGetAsync(int uid)
+        public virtual async Task<UcPmBlacklsGet> PmBlacklsGetAsync(int uid)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1539,7 +1539,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public Task<bool> PmBlacklsSetAllAsync(int uid)
+        public virtual Task<bool> PmBlacklsSetAllAsync(int uid)
         {
             return PmBlacklsSetAsync(uid, "{ALL}");
         }
@@ -1550,7 +1550,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">Uid</param>
         /// <param name="userName">黑名单用户名</param>
         /// <returns></returns>
-        public async Task<bool> PmBlacklsSetAsync(int uid, params string[] userName)
+        public virtual async Task<bool> PmBlacklsSetAsync(int uid, params string[] userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1565,7 +1565,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public Task<bool> PmBlacklsAddAllAsync(int uid)
+        public virtual Task<bool> PmBlacklsAddAllAsync(int uid)
         {
             return PmBlacklsAddAsync(uid, "{ALL}");
         }
@@ -1577,7 +1577,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">Uid</param>
         /// <param name="userName">黑名单用户名</param>
         /// <returns></returns>
-        public async Task<bool> PmBlacklsAddAsync(int uid, params string[] userName)
+        public virtual async Task<bool> PmBlacklsAddAsync(int uid, params string[] userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1592,7 +1592,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public Task PmBlacklsDeleteAllAsync(int uid)
+        public virtual Task PmBlacklsDeleteAllAsync(int uid)
         {
             return PmBlacklsDeleteAsync(uid, "{ALL}");
         }
@@ -1602,7 +1602,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <param name="userName">黑名单用户名</param>
-        public async Task PmBlacklsDeleteAsync(int uid, params string[] userName)
+        public virtual async Task PmBlacklsDeleteAsync(int uid, params string[] userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1621,7 +1621,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="friendId">好友ID</param>
         /// <param name="comment">备注</param>
         /// <returns></returns>
-        public async Task<bool> FriendAddAsync(int uid, int friendId, string comment = "")
+        public virtual async Task<bool> FriendAddAsync(int uid, int friendId, string comment = "")
         {
             var args = new Dictionary<string, string>
                            {
@@ -1638,7 +1638,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">Uid</param>
         /// <param name="friendIds">好友ID</param>
         /// <returns></returns>
-        public async Task<bool> FriendDeleteAsync(int uid, params int[] friendIds)
+        public virtual async Task<bool> FriendDeleteAsync(int uid, params int[] friendIds)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1654,7 +1654,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">Uid</param>
         /// <param name="direction">方向</param>
         /// <returns>好友数目</returns>
-        public async Task<int> FriendTotalNumAsync(int uid, FriendDirection direction = FriendDirection.All)
+        public virtual async Task<int> FriendTotalNumAsync(int uid, FriendDirection direction = FriendDirection.All)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1674,7 +1674,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="totalNum">好友总数</param>
         /// <param name="direction">方向</param>
         /// <returns></returns>
-        public async Task<UcFriends> FriendListAsync(int uid, int page = 1, int pageSize = 10, int totalNum = 10, FriendDirection direction = FriendDirection.All)
+        public virtual async Task<UcFriends> FriendListAsync(int uid, int page = 1, int pageSize = 10, int totalNum = 10, FriendDirection direction = FriendDirection.All)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1698,7 +1698,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="toAppId">目标应用ID</param>
         /// <param name="amount">积分数额</param>
         /// <returns></returns>
-        public async Task<bool> CreditExchangeRequestAsync(int uid, int from, int to, int toAppId, int amount)
+        public virtual async Task<bool> CreditExchangeRequestAsync(int uid, int from, int to, int toAppId, int amount)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1720,7 +1720,7 @@ namespace DS.Web.UCenter.Client
         ///<param name="uid">Uid</param>
         ///<param name="type"></param>
         ///<returns></returns>
-        public Task<string> AvatarAsync(int uid, AvatarType type = AvatarType.Virtual)
+        public virtual Task<string> AvatarAsync(int uid, AvatarType type = AvatarType.Virtual)
         {
             return Task.FromResult(Avatar(uid, type));
         }
@@ -1732,7 +1732,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="size">大小</param>
         /// <param name="type">类型</param>
         /// <returns></returns>
-        public Task<string> AvatarUrlAsync(int uid, AvatarSize size, AvatarType type = AvatarType.Virtual)
+        public virtual Task<string> AvatarUrlAsync(int uid, AvatarSize size, AvatarType type = AvatarType.Virtual)
         {
             return Task.FromResult(AvatarUrl(uid, size, type));
         }
@@ -1744,7 +1744,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="size"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public async Task<bool> AvatarCheckAsync(int uid, AvatarSize size = AvatarSize.Middle, AvatarType type = AvatarType.Virtual)
+        public virtual async Task<bool> AvatarCheckAsync(int uid, AvatarSize size = AvatarSize.Middle, AvatarType type = AvatarType.Virtual)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1765,7 +1765,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="tagName">标签名</param>
         /// <param name="number">应用程序ID对应的数量</param>
         /// <returns></returns>
-        public async Task<UcTags> TagGetAsync(string tagName, IEnumerable<KeyValuePair<string, string>> number)
+        public virtual async Task<UcTags> TagGetAsync(string tagName, IEnumerable<KeyValuePair<string, string>> number)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1794,7 +1794,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="targetIds">保留</param>
         /// <param name="images">相关图片的 URL 和链接地址。一个图片地址，一个链接地址</param>
         /// <returns></returns>
-        public async Task<int> FeedAddAsync(FeedIcon icon, int uid, string userName, string titleTemplate, string titleData, string bodyTemplate, string bodyData, string bodyGeneral, string targetIds, params string[] images)
+        public virtual async Task<int> FeedAddAsync(FeedIcon icon, int uid, string userName, string titleTemplate, string titleData, string bodyTemplate, string bodyData, string bodyGeneral, string targetIds, params string[] images)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1831,7 +1831,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="limit">数量限制</param>
         /// <returns></returns>
-        public async Task<UcFeeds> FeedGetAsync(int limit)
+        public virtual async Task<UcFeeds> FeedGetAsync(int limit)
         {
             var args = new Dictionary<string, string>
                            {
@@ -1846,7 +1846,7 @@ namespace DS.Web.UCenter.Client
         /// (异步)得到应用列表
         /// </summary>
         /// <returns></returns>
-        public async Task<UcApps> AppListAsync()
+        public virtual async Task<UcApps> AppListAsync()
         {
             var args = new Dictionary<string, string>();
             return new UcApps(await SendArgsAsync(args, UcAppModelName.ModelName, UcAppModelName.ActionList));
@@ -1862,7 +1862,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="message">内容</param>
         /// <param name="uids">Uid</param>
         /// <returns></returns>
-        public Task<UcMailQueue> MailQueueAsync(string subject, string message, params int[] uids)
+        public virtual Task<UcMailQueue> MailQueueAsync(string subject, string message, params int[] uids)
         {
             return MailQueueAsync(subject, message, "", "gbk", false, 1, uids, new string[0]);
         }
@@ -1874,7 +1874,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="message">内容</param>
         /// <param name="emails">目标email</param>
         /// <returns></returns>
-        public Task<UcMailQueue> MailQueueAsync(string subject, string message, params string[] emails)
+        public virtual Task<UcMailQueue> MailQueueAsync(string subject, string message, params string[] emails)
         {
             return MailQueueAsync(subject, message, "", "gbk", false, 1, new int[0], emails);
         }
@@ -1887,7 +1887,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uids">Uid</param>
         /// <param name="emails">目标email</param>
         /// <returns></returns>
-        public Task<UcMailQueue> MailQueueAsync(string subject, string message, int[] uids, string[] emails)
+        public virtual Task<UcMailQueue> MailQueueAsync(string subject, string message, int[] uids, string[] emails)
         {
             return MailQueueAsync(subject, message, "", "gbk", false, 1, uids, emails);
         }
@@ -1904,7 +1904,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uids">Uid</param>
         /// <param name="emails">目标email</param>
         /// <returns></returns>
-        public async Task<UcMailQueue> MailQueueAsync(string subject, string message, string fromMail, string charset, bool htmlOn, int level, int[] uids, string[] emails)
+        public virtual async Task<UcMailQueue> MailQueueAsync(string subject, string message, string fromMail, string charset, bool htmlOn, int level, int[] uids, string[] emails)
         {
             var args = new Dictionary<string, string>
                            {
