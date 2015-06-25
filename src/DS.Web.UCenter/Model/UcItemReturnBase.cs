@@ -30,23 +30,24 @@ namespace DS.Web.UCenter
         /// <param name="htmlOn">是否输出HTML</param>
         /// <param name="isRoot">是否为根目录</param>
         /// <returns></returns>
-        private string serialize(IDictionary item,bool htmlOn = true, bool isRoot = true)
+        private static string serialize(IDictionary item,bool htmlOn = true, bool isRoot = true)
         {
-            var sb = new StringBuilder();
+            var sb = new StringBuilder((htmlOn ? 48 : 32) * item.Count + (isRoot ? 64 : 0));
             getHeader(isRoot, sb);
 
             foreach (DictionaryEntry entry in item)
             {
-                if (entry.Value is Hashtable)
+                if (entry.Value is IDictionary)
                 {
-                    sb
-                        .Append("<item id=\"").Append(entry.Key).Append("\">").AppendLine()
-                        .AppendLine(serialize((Hashtable)entry.Value, htmlOn, false ))
+                    sb.Append("<item id=\"").Append(entry.Key).Append("\">").AppendLine()
+                        .AppendLine(serialize((IDictionary)entry.Value, htmlOn, false ))
                         .AppendLine("</item>");
                 }
                 else
                 {
-                    sb.AppendFormat(htmlOn ? "<item id=\"{0}\"><![CDATA[{1}]]></item>\r\n" : "<item id=\"{0}\">{1}</item>\r\n", entry.Key, entry.Value);
+                    sb.Append("<item id=\"").Append(entry.Key)
+                        .Append(htmlOn ? "\"><![CDATA[" : "\">")
+                        .Append(entry.Value).AppendLine(htmlOn ? "]]></item>" : "</item>");
                 }
             }
 
@@ -55,7 +56,7 @@ namespace DS.Web.UCenter
             return sb.ToString();
         }
 
-        private void getFooter(bool isRoot, StringBuilder sb)
+        private static void getFooter(bool isRoot, StringBuilder sb)
         {
             if (isRoot)
             {
@@ -63,12 +64,14 @@ namespace DS.Web.UCenter
             }
         }
 
-        private void getHeader(bool isRoot, StringBuilder sb)
+        private static void getHeader(bool isRoot, StringBuilder sb)
         {
-            if (!isRoot) return;
-            sb
-                .AppendLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>")
-                .AppendLine("<root>");
+            if (isRoot)
+            {
+                sb
+                    .AppendLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>")
+                    .AppendLine("<root>");
+            }
         }
 
         #region 输出

@@ -33,7 +33,7 @@ namespace DS.Web.UCenter
         /// </summary>
         protected override void SetProperty()
         {
-            SetItems(Items, (Hashtable)Data["data"]);
+            SetItems(Items, (IDictionary)Data["data"]);
             Count = Data.GetInt("count");
         }
     }

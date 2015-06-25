@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace DS.Web.UCenter
 {
@@ -15,7 +15,7 @@ namespace DS.Web.UCenter
     /// <typeparam name="T">项目</typeparam>
     /// <typeparam name="TThis">基类</typeparam>
     public abstract class UcCollectionReceiveBase<T, TThis> : UcCollectionBase
-        where T : UcItemReceiveBase<T>
+        where T : UcItemReceiveBase<T>, new()
         where TThis : UcCollectionReceiveBase<T, TThis>
     {
         /// <summary>
@@ -52,16 +52,16 @@ namespace DS.Web.UCenter
         /// <returns></returns>
         private void unSerialize(string xml)
         {
-            var document = new XmlDocument();
-            document.LoadXml(xml);
-            if (document.DocumentElement == null) throw new XmlException("这不是一个Xml文档");
+            var doc = XDocument.Parse(xml);
+            var docEle = doc.Root;
+            //if (docEle == null) throw new XmlException("这不是一个Xml文档");
             var data = new Hashtable();
-            unSerialize(data, document.DocumentElement);
+            unSerialize(data, docEle);
             foreach (DictionaryEntry root in data)
             {
-                if (root.Value is Hashtable)
+                if (root.Value is IDictionary)
                 {
-                    Data = (Hashtable)root.Value;
+                    Data = (IDictionary)root.Value;
                     break;
                 }
             }
@@ -72,16 +72,17 @@ namespace DS.Web.UCenter
         /// </summary>
         /// <param name="data"></param>
         /// <param name="node"></param>
-        private void unSerialize(IDictionary data, XmlNode node)
+        private void unSerialize(IDictionary data, XElement node)
         {
-            if (!node.FirstChild.HasChildNodes)
+            if (!node.HasElements)
             {
                 var key = getId(node);
-                data.Add(key, node.InnerText);
+                data.Add(key, node.Value);
             }
             else
             {
-                var item = (T)Activator.CreateInstance(typeof(T), node);
+                var item = new T();
+                item.initialize(node);
                 var key = getId(node);
                 if (item.Success)
                 {
@@ -91,7 +92,7 @@ namespace DS.Web.UCenter
                 {
                     var dic = new Hashtable();
                     data.Add(key, dic);
-                    foreach (XmlNode n in node.ChildNodes)
+                    foreach (XElement n in node.Elements())
                     {
                         unSerialize(dic, n);
                     }
@@ -99,9 +100,10 @@ namespace DS.Web.UCenter
             }
         }
 
-        private string getId(XmlNode node)
+        private string getId(XElement node)
         {
-            return node.Attributes != null ? node.Attributes["id"].Value : Guid.NewGuid().ToString();
+            var id = node.Attribute("id");
+            return id != null ? id.Value : Guid.NewGuid().ToString();
         }
 
 

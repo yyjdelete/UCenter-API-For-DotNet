@@ -14,13 +14,6 @@ namespace DS.Web.UCenter
         public UcUserInfo(string xml)
             : base(xml)
         { }
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="xml">数据</param>
-        public UcUserInfo(XmlNode xml)
-            : base(xml)
-        { }
 
         /// <summary>
         /// Uid

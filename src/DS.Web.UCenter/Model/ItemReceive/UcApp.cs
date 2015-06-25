@@ -20,10 +20,7 @@ namespace DS.Web.UCenter
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="xml">数据</param>
-        public UcApp(XmlNode xml)
-            : base(xml)
-        { }
+        public UcApp() { }
 
         /// <summary>
         /// AppId
@@ -85,7 +82,7 @@ namespace DS.Web.UCenter
             ApiFileName = Data.GetString("apifilename");
             CharSet = Data.GetString("charset");
             SynLogin = Data.GetBool("synlogin");
-            Extra.Add("apppath", Data.GetHashtable("extra").GetString("apppath"));
+            Extra.Add("apppath", Data.GetDictionary("extra").GetString("apppath"));
             RecvNote = Data.GetString("recvnote");
             CheckForSuccess("appid");
         }

@@ -18,10 +18,7 @@ namespace DS.Web.UCenter
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="xml">数据</param>
-        public UcBadWord(XmlNode xml)
-            : base(xml)
-        { }
+        public UcBadWord() { }
 
         /// <summary>
         /// Id

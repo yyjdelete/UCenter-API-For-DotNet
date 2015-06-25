@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace DS.Web.UCenter
 {
@@ -31,11 +31,7 @@ namespace DS.Web.UCenter
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="xml">数据</param>
-        protected UcItemReceiveBase(XmlNode xml)
-        {
-            initialize(xml);
-        }
+        protected UcItemReceiveBase() { }
 
         /// <summary>
         /// 初始化
@@ -61,7 +57,7 @@ namespace DS.Web.UCenter
         /// 初始化
         /// </summary>
         /// <param name="xml">数据</param>
-        private void initialize(XmlNode xml)
+        internal void initialize(XElement xml)
         {
             try
             {
@@ -82,11 +78,12 @@ namespace DS.Web.UCenter
         /// 得到UCenter项目
         /// </summary>
         /// <param name="node">节点</param>
-        private void getItems(XmlNode node)
+        private void getItems(XElement node)
         {
-            foreach (XmlNode xn in node.ChildNodes)
+            foreach (var xn in node.Elements())
             {
-                if (xn.Attributes != null) Data.Add(xn.Attributes["id"].Value, xn.InnerText);
+                var id = xn.Attribute("id");
+                if (id != null) Data.Add(id.Value, xn.Value);
             }
         }
 
@@ -98,9 +95,9 @@ namespace DS.Web.UCenter
         /// <returns></returns>
         private void unSerialize(string xml, string rootNodeName = "root")
         {
-            var document = new XmlDocument();
-            document.LoadXml(xml);
-            var node = document.SelectSingleNode(rootNodeName);
+            XDocument doc = XDocument.Parse(xml);
+            doc.Element(rootNodeName);
+            var node = doc.Element(rootNodeName);
             getItems(node);
         }
 

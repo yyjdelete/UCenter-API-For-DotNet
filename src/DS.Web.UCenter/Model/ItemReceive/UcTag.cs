@@ -18,10 +18,7 @@ namespace DS.Web.UCenter
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="xml">数据</param>
-        public UcTag(XmlNode xml)
-            : base(xml)
-        { }
+        public UcTag() { }
 
         /// <summary>
         /// URL
@@ -43,7 +40,7 @@ namespace DS.Web.UCenter
         {
             Url = Data.GetString("url");
             Subject = Data.GetString("subject");
-            Extra = Data.GetHashtable("extra");
+            Extra = Data.GetDictionary("extra");
             CheckForSuccess("url");
         }
     }

@@ -19,10 +19,7 @@ namespace DS.Web.UCenter
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="xml">数据</param>
-        public UcFeed(XmlNode xml)
-            : base(xml)
-        { }
+        public UcFeed() { }
 
         /// <summary>
         /// 事件的 ID
