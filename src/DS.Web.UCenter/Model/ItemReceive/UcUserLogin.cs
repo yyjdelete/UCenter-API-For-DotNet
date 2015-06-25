@@ -14,13 +14,6 @@ namespace DS.Web.UCenter
         public UcUserLogin(string xml)
             : base(xml)
         { }
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="xml">数据</param>
-        public UcUserLogin(XmlNode xml)
-            : base(xml)
-        { }
 
         /// <summary>
         /// Uid, 若成功(大于0), 为用户uid, 若不成功(小于等于0), 则为错误码

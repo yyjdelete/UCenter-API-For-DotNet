@@ -18,10 +18,7 @@ namespace DS.Web.UCenter
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="xml">数据</param>
-        public UcCreditSetting(XmlNode xml)
-            : base(xml)
-        { }
+        public UcCreditSetting() { }
 
         /// <summary>
         /// 积分兑换的目标应用程序 ID

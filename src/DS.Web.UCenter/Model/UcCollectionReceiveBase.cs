@@ -15,7 +15,7 @@ namespace DS.Web.UCenter
     /// <typeparam name="T">项目</typeparam>
     /// <typeparam name="TThis">基类</typeparam>
     public abstract class UcCollectionReceiveBase<T, TThis> : UcCollectionBase
-        where T : UcItemReceiveBase<T>
+        where T : UcItemReceiveBase<T>, new()
         where TThis : UcCollectionReceiveBase<T, TThis>
     {
         /// <summary>
@@ -81,7 +81,8 @@ namespace DS.Web.UCenter
             }
             else
             {
-                var item = (T)Activator.CreateInstance(typeof(T), node);
+                var item = new T();
+                item.initialize(node);
                 var key = getId(node);
                 if (item.Success)
                 {

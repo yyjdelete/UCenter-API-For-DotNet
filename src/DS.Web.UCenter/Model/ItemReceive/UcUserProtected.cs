@@ -17,10 +17,7 @@ namespace DS.Web.UCenter
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="xml">数据</param>
-        public UcUserProtected(XmlNode xml)
-            : base(xml)
-        { }
+        public UcUserProtected() { }
 
         /// <summary>
         /// Uid

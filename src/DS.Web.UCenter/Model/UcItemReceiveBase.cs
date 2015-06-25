@@ -31,11 +31,7 @@ namespace DS.Web.UCenter
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="xml">数据</param>
-        protected UcItemReceiveBase(XmlNode xml)
-        {
-            initialize(xml);
-        }
+        protected UcItemReceiveBase() { }
 
         /// <summary>
         /// 初始化
@@ -61,7 +57,7 @@ namespace DS.Web.UCenter
         /// 初始化
         /// </summary>
         /// <param name="xml">数据</param>
-        private void initialize(XmlNode xml)
+        internal void initialize(XmlNode xml)
         {
             try
             {

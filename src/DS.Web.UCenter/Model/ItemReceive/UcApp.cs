@@ -20,10 +20,7 @@ namespace DS.Web.UCenter
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="xml">数据</param>
-        public UcApp(XmlNode xml)
-            : base(xml)
-        { }
+        public UcApp() { }
 
         /// <summary>
         /// AppId

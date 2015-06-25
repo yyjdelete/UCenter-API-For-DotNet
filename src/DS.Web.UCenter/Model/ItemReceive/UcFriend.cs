@@ -18,10 +18,7 @@ namespace DS.Web.UCenter
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="xml">数据</param>
-        public UcFriend(XmlNode xml)
-            : base(xml)
-        {}
+        public UcFriend() { }
 
         /// <summary>
         /// 用户 ID

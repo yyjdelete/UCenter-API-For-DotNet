@@ -15,13 +15,6 @@ namespace DS.Web.UCenter
         public UcClientSetting(string xml)
             : base(xml)
         { }
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="xml">数据</param>
-        public UcClientSetting(XmlNode xml)
-            : base(xml)
-        { }
 
         /// <summary>
         /// 
