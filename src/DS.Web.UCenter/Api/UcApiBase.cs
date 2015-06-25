@@ -14,7 +14,7 @@ namespace DS.Web.UCenter.Api
     public abstract class UcApiBase : IHttpHandler
     {
         /// <summary>
-        /// 如果子类的实现不是线程安全的请覆盖此方法
+        /// 如果子类的实现不是线程安全的请覆盖此方法, 并返回false
         /// </summary>
         public virtual bool IsReusable
         {
