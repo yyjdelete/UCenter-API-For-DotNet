@@ -101,7 +101,14 @@ namespace DS.Web.UCenter
 
         private string getId(XmlNode node)
         {
-            return node.Attributes != null ? node.Attributes["id"].Value : Guid.NewGuid().ToString();
+            var attrs = node.Attributes;
+            if (attrs != null && attrs.Count > 0)
+            {
+                var id = node.Attributes["id"];
+                if (id != null)
+                    return id.Value;
+            }
+            return Guid.NewGuid().ToString();
         }
 
 
