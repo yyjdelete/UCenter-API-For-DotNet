@@ -23,15 +23,17 @@ namespace DS.Web.UCenter
         /// <returns></returns>
         private string serialize(bool htmlOn = true, bool isRoot = true)
         {
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(128 * Data.Count + (isRoot ? 64 : 0));
             if (isRoot)
             {
-                sb.AppendLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-                sb.AppendLine("<root>");
+                sb.AppendLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>")
+                    .AppendLine("<root>");
             }
             foreach (DictionaryEntry entry in Data)
             {
-                sb.AppendFormat(htmlOn ? "<item id=\"{0}\"><![CDATA[{1}]]></item>\r\n" : "<item id=\"{0}\">{1}</item>\r\n", entry.Key, entry.Value is T ? ((T)entry.Value).ToString(false) : entry.Value.ToString());
+                sb.Append("<item id=\"").Append(entry.Key).Append(htmlOn ? "\"><![CDATA[" : "\">")
+                    .Append(entry.Value is T ? ((T)entry.Value).ToString(false) : entry.Value.ToString())
+                    .AppendLine(htmlOn ? "]]></item>" : "</item>");
             }
             if (isRoot)
             {
@@ -71,7 +73,7 @@ namespace DS.Web.UCenter
         /// </summary>
         /// <param name="list"></param>
         /// <param name="array"></param>
-        protected void AddToList(IList<T> list,IEnumerable<T> array)
+        protected static void AddToList(IList<T> list,IEnumerable<T> array)
         {
             foreach(var item in array)
             {
