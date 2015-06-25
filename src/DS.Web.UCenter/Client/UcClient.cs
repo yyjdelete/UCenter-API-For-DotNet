@@ -27,7 +27,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="questionId">登陆问题</param>
         /// <param name="answer">答案</param>
         /// <returns></returns>
-        public UcUserRegister UserRegister(string userName, string passWord, string email, int questionId = 0, string answer = "")
+        public virtual UcUserRegister UserRegister(string userName, string passWord, string email, int questionId = 0, string answer = "")
         {
             var args = new Dictionary<string, string>
                            {
@@ -50,7 +50,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="questionId">问题ID</param>
         /// <param name="answer">答案</param>
         /// <returns></returns>
-        public UcUserLogin UserLogin(string userName, string passWord, LoginMethod loginMethod = LoginMethod.UserName, bool checkques = false, int questionId = 0, string answer = "")
+        public virtual UcUserLogin UserLogin(string userName, string passWord, LoginMethod loginMethod = LoginMethod.UserName, bool checkques = false, int questionId = 0, string answer = "")
         {
             var args = new Dictionary<string, string>
                            {
@@ -69,7 +69,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="userName">用户名</param>
         /// <returns></returns>
-        public UcUserInfo UserInfo(string userName)
+        public virtual UcUserInfo UserInfo(string userName)
         {
             return userInfo(userName,InfoMethod.UserName);
         }
@@ -79,7 +79,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public UcUserInfo UserInfo(int uid)
+        public virtual UcUserInfo UserInfo(int uid)
         {
             return userInfo(uid.ToString(), InfoMethod.Uid);
         }
@@ -90,7 +90,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="userName">用户名/Uid</param>
         /// <param name="infoMethod">查询方式</param>
         /// <returns></returns>
-        private UcUserInfo userInfo(string userName, InfoMethod infoMethod)
+        protected virtual UcUserInfo userInfo(string userName, InfoMethod infoMethod)
         {
             var args = new Dictionary<string, string>
                            {
@@ -114,7 +114,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="questionId">密码提示问题编号</param>
         /// <param name="answer">密码提示问题答案</param>
         /// <returns></returns>
-        public UcUserEdit UserEdit(string userName, string oldPw, string newPw, string email, bool ignoreOldPw = false, int questionId = 0, string answer = "")
+        public virtual UcUserEdit UserEdit(string userName, string oldPw, string newPw, string email, bool ignoreOldPw = false, int questionId = 0, string answer = "")
         {
             var args = new Dictionary<string, string>
                            {
@@ -134,7 +134,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public bool UserDelete(params int[] uid)
+        public virtual bool UserDelete(params int[] uid)
         {
             var args = new Dictionary<string, string>();
             addArray(args, "uid", uid);
@@ -147,7 +147,7 @@ namespace DS.Web.UCenter.Client
         /// 删除用户头像
         /// </summary>
         /// <param name="uid">Uid</param>
-        public void UserDeleteAvatar(params int[] uid)
+        public virtual void UserDeleteAvatar(params int[] uid)
         {
             var args = new Dictionary<string, string>();
             addArray(args, "uid", uid);
@@ -159,7 +159,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns>同步登陆的 Html 代码</returns>
-        public string UserSynlogin(int uid)
+        public virtual string UserSynlogin(int uid)
         {
             var args = new Dictionary<string, string>
                            {
@@ -172,7 +172,7 @@ namespace DS.Web.UCenter.Client
         /// 同步登出
         /// </summary>
         /// <returns>同步登出的 Html 代码</returns>
-        public string UserSynLogout()
+        public virtual string UserSynLogout()
         {
             var args = new Dictionary<string, string>();
             return SendArgs(args, UcUserModelName.ModelName, UcUserModelName.ActionSynLogout);
@@ -183,7 +183,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="email">Email</param>
         /// <returns></returns>
-        public UcUserCheckEmail UserCheckEmail(string email)
+        public virtual UcUserCheckEmail UserCheckEmail(string email)
         {
             var args = new Dictionary<string, string>
                            {
@@ -198,7 +198,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="admin">操作管理员</param>
         /// <param name="userName">用户名</param>
         /// <returns></returns>
-        public bool UserAddProtected(string admin, params string[] userName)
+        public virtual bool UserAddProtected(string admin, params string[] userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -214,7 +214,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="admin">操作管理员</param>
         /// <param name="userName">用户名</param>
         /// <returns></returns>
-        public bool UserDeleteProtected(string admin, params string[] userName)
+        public virtual bool UserDeleteProtected(string admin, params string[] userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -228,7 +228,7 @@ namespace DS.Web.UCenter.Client
         /// 得到受保护用户
         /// </summary>
         /// <returns></returns>
-        public UcUserProtecteds UserGetProtected()
+        public virtual UcUserProtecteds UserGetProtected()
         {
             var args = new Dictionary<string, string>();
             return new UcUserProtecteds(SendArgs(args, UcUserModelName.ModelName, UcUserModelName.ActionGetProtected));
@@ -243,7 +243,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="passWord">密码</param>
         /// <param name="email">Email</param>
         /// <returns></returns>
-        public UcUserMerge UserMerge(string oldUserName, string newUserName, int uid, string passWord, string email)
+        public virtual UcUserMerge UserMerge(string oldUserName, string newUserName, int uid, string passWord, string email)
         {
             var args = new Dictionary<string, string>
                            {
@@ -260,7 +260,7 @@ namespace DS.Web.UCenter.Client
         /// 移除重名用户记录
         /// </summary>
         /// <param name="userName">用户名</param>
-        public void UserMergeRemove(string userName)
+        public virtual void UserMergeRemove(string userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -277,7 +277,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">Uid</param>
         /// <param name="credit">积分编号</param>
         /// <returns></returns>
-        public int UserGetCredit(int appId, int uid, int credit)
+        public virtual int UserGetCredit(int appId, int uid, int credit)
         {
             int result;
             var args = new Dictionary<string, string>
@@ -297,7 +297,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public UcPmCheckNew PmCheckNew(int uid)
+        public virtual UcPmCheckNew PmCheckNew(int uid)
         {
             var args = new Dictionary<string, string>
                            {
@@ -316,7 +316,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="message">消息内容</param>
         /// <param name="msgTo">收件人ID</param>
         /// <returns></returns>
-        public UcPmSend PmSend(int fromUid, int replyPmId, string subject, string message, params int[] msgTo)
+        public virtual UcPmSend PmSend(int fromUid, int replyPmId, string subject, string message, params int[] msgTo)
         {
             return pmSend(fromUid, string.Join(",", intToString(msgTo)), subject, message, replyPmId);
         }
@@ -330,7 +330,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="message">消息内容</param>
         /// <param name="msgTo">收件人用户名</param>
         /// <returns></returns>
-        public UcPmSend PmSend(int fromUid, int replyPmId, string subject, string message, params string[] msgTo)
+        public virtual UcPmSend PmSend(int fromUid, int replyPmId, string subject, string message, params string[] msgTo)
         {
             return pmSend(fromUid, string.Join(",", msgTo), subject, message, replyPmId, SendMethod.UserName);
         }
@@ -345,7 +345,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="replyPmId">回复的消息 ID，0:(默认值) 发送新的短消息，大于 0:回复指定的短消息</param>
         /// <param name="sendMethod">msgto 参数类型</param>
         /// <returns></returns>
-        private UcPmSend pmSend(int fromUid, string msgTo, string subject, string message, int replyPmId = 0, SendMethod sendMethod = SendMethod.Uid)
+        protected virtual UcPmSend pmSend(int fromUid, string msgTo, string subject, string message, int replyPmId = 0, SendMethod sendMethod = SendMethod.Uid)
         {
             var args = new Dictionary<string, string>
                            {
@@ -366,7 +366,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="folder">文件夹</param>
         /// <param name="pmIds">短消息ID</param>
         /// <returns>删除的数量</returns>
-        public int PmDelete(int uid, PmDeleteFolder folder, params int[] pmIds)
+        public virtual int PmDelete(int uid, PmDeleteFolder folder, params int[] pmIds)
         {
             var args = new Dictionary<string, string>
                            {
@@ -383,7 +383,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">发件人</param>
         /// <param name="toUids">收件人</param>
         /// <returns>删除的数量</returns>
-        public int PmDelete(int uid, params int[] toUids)
+        public virtual int PmDelete(int uid, params int[] toUids)
         {
             var args = new Dictionary<string, string>
                            {
@@ -402,7 +402,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="toUids">收件人</param>
         /// <param name="pmIds">短消息ID</param>
         /// <param name="readStatus">阅读状态</param>
-        public void PmReadStatus(int uid, int toUids, int pmIds = 0, ReadStatus readStatus = ReadStatus.Readed)
+        public virtual void PmReadStatus(int uid, int toUids, int pmIds = 0, ReadStatus readStatus = ReadStatus.Readed)
         {
             PmReadStatus(uid, new[] { toUids }, new[] { pmIds }, readStatus);
         }
@@ -415,7 +415,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="toUids">收件人数组</param>
         /// <param name="pmIds">短消息ID数组</param>
         /// <param name="readStatus">阅读状态</param>
-        public void PmReadStatus(int uid, IEnumerable<int> toUids, IEnumerable<int> pmIds, ReadStatus readStatus = ReadStatus.Readed)
+        public virtual void PmReadStatus(int uid, IEnumerable<int> toUids, IEnumerable<int> pmIds, ReadStatus readStatus = ReadStatus.Readed)
         {
             var args = new Dictionary<string, string>
                            {
@@ -438,7 +438,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="filter">过滤方式</param>
         /// <param name="msgLen">截取短消息内容文字的长度，0 为不截取，默认值 0</param>
         /// <returns></returns>
-        public UcPmList PmList(int uid, int page = 1, int pageSize = 10, PmReadFolder folder = PmReadFolder.NewBox, PmReadFilter filter = PmReadFilter.NewPm, int msgLen = 0)
+        public virtual UcPmList PmList(int uid, int page = 1, int pageSize = 10, PmReadFolder folder = PmReadFolder.NewBox, PmReadFilter filter = PmReadFilter.NewPm, int msgLen = 0)
         {
             var args = new Dictionary<string, string>
                            {
@@ -463,7 +463,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="toUid">收件人ID</param>
         /// <param name="dateRange">日期范围</param>
         /// <returns></returns>
-        public UcPmView PmView(int uid, int pmId, int toUid = 0, DateRange dateRange = DateRange.Today)
+        public virtual UcPmView PmView(int uid, int pmId, int toUid = 0, DateRange dateRange = DateRange.Today)
         {
             var args = new Dictionary<string, string>
                            {
@@ -482,7 +482,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="type">类型</param>
         /// <param name="pmId">短消息ID</param>
         /// <returns></returns>
-        public UcPm PmViewNode(int uid, ViewType type = ViewType.Specified, int pmId = 0)
+        public virtual UcPm PmViewNode(int uid, ViewType type = ViewType.Specified, int pmId = 0)
         {
             var args = new Dictionary<string, string>
                            {
@@ -497,7 +497,7 @@ namespace DS.Web.UCenter.Client
         /// 忽略未读消息提示
         /// </summary>
         /// <param name="uid">Uid</param>
-        public void PmIgnore(int uid)
+        public virtual void PmIgnore(int uid)
         {
             var args = new Dictionary<string, string>
                            {
@@ -513,7 +513,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public UcPmBlacklsGet PmBlacklsGet(int uid)
+        public virtual UcPmBlacklsGet PmBlacklsGet(int uid)
         {
             var args = new Dictionary<string, string>
                            {
@@ -528,7 +528,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public bool PmBlacklsSetAll(int uid)
+        public virtual bool PmBlacklsSetAll(int uid)
         {
             return PmBlacklsSet(uid, ALL);
         }
@@ -539,7 +539,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">Uid</param>
         /// <param name="userName">黑名单用户名</param>
         /// <returns></returns>
-        public bool PmBlacklsSet(int uid, params string[] userName)
+        public virtual bool PmBlacklsSet(int uid, params string[] userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -554,7 +554,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public bool PmBlacklsAddAll(int uid)
+        public virtual bool PmBlacklsAddAll(int uid)
         {
             return PmBlacklsAdd(uid, ALL);
         }
@@ -566,7 +566,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">Uid</param>
         /// <param name="userName">黑名单用户名</param>
         /// <returns></returns>
-        public bool PmBlacklsAdd(int uid, params string[] userName)
+        public virtual bool PmBlacklsAdd(int uid, params string[] userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -581,7 +581,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <returns></returns>
-        public void PmBlacklsDeleteAll(int uid)
+        public virtual void PmBlacklsDeleteAll(int uid)
         {
             PmBlacklsDelete(uid, ALL);
         }
@@ -591,7 +591,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="uid">Uid</param>
         /// <param name="userName">黑名单用户名</param>
-        public void PmBlacklsDelete(int uid, params string[] userName)
+        public virtual void PmBlacklsDelete(int uid, params string[] userName)
         {
             var args = new Dictionary<string, string>
                            {
@@ -610,7 +610,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="friendId">好友ID</param>
         /// <param name="comment">备注</param>
         /// <returns></returns>
-        public bool FriendAdd(int uid, int friendId, string comment = "")
+        public virtual bool FriendAdd(int uid, int friendId, string comment = "")
         {
             var args = new Dictionary<string, string>
                            {
@@ -627,7 +627,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">Uid</param>
         /// <param name="friendIds">好友ID</param>
         /// <returns></returns>
-        public bool FriendDelete(int uid, params int[] friendIds)
+        public virtual bool FriendDelete(int uid, params int[] friendIds)
         {
             var args = new Dictionary<string, string>
                            {
@@ -643,7 +643,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uid">Uid</param>
         /// <param name="direction">方向</param>
         /// <returns>好友数目</returns>
-        public int FriendTotalNum(int uid, FriendDirection direction = FriendDirection.All)
+        public virtual int FriendTotalNum(int uid, FriendDirection direction = FriendDirection.All)
         {
             var args = new Dictionary<string, string>
                            {
@@ -663,7 +663,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="totalNum">好友总数</param>
         /// <param name="direction">方向</param>
         /// <returns></returns>
-        public UcFriends FriendList(int uid, int page = 1, int pageSize = 10, int totalNum = 10, FriendDirection direction = FriendDirection.All)
+        public virtual UcFriends FriendList(int uid, int page = 1, int pageSize = 10, int totalNum = 10, FriendDirection direction = FriendDirection.All)
         {
             var args = new Dictionary<string, string>
                            {
@@ -687,7 +687,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="toAppId">目标应用ID</param>
         /// <param name="amount">积分数额</param>
         /// <returns></returns>
-        public bool CreditExchangeRequest(int uid, int from, int to, int toAppId, int amount)
+        public virtual bool CreditExchangeRequest(int uid, int from, int to, int toAppId, int amount)
         {
             var args = new Dictionary<string, string>
                            {
@@ -709,7 +709,7 @@ namespace DS.Web.UCenter.Client
         ///<param name="uid">Uid</param>
         ///<param name="type"></param>
         ///<returns></returns>
-        public string Avatar(int uid, AvatarType type = AvatarType.Virtual)
+        public virtual string Avatar(int uid, AvatarType type = AvatarType.Virtual)
         {
             var args = new Dictionary<string, string>
                            {
@@ -731,7 +731,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="size">大小</param>
         /// <param name="type">类型</param>
         /// <returns></returns>
-        public string AvatarUrl(int uid,AvatarSize size,AvatarType type = AvatarType.Virtual)
+        public virtual string AvatarUrl(int uid,AvatarSize size,AvatarType type = AvatarType.Virtual)
         {
             return UcConfig.UcApi + "avatar.php?uid=" + uid.ToString() +
                 "&type=" + type.ToString().ToLower() +
@@ -745,7 +745,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="size"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool AvatarCheck(int uid, AvatarSize size = AvatarSize.Middle, AvatarType type = AvatarType.Virtual)
+        public virtual bool AvatarCheck(int uid, AvatarSize size = AvatarSize.Middle, AvatarType type = AvatarType.Virtual)
         {
             var args = new Dictionary<string, string>
                            {
@@ -766,7 +766,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="tagName">标签名</param>
         /// <param name="number">应用程序ID对应的数量</param>
         /// <returns></returns>
-        public UcTags TagGet(string tagName, IEnumerable<KeyValuePair<string, string>> number)
+        public virtual UcTags TagGet(string tagName, IEnumerable<KeyValuePair<string, string>> number)
         {
             var args = new Dictionary<string, string>
                            {
@@ -795,7 +795,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="targetIds">保留</param>
         /// <param name="images">相关图片的 URL 和链接地址。一个图片地址，一个链接地址</param>
         /// <returns></returns>
-        public int FeedAdd(FeedIcon icon, int uid, string userName, string titleTemplate, string titleData, string bodyTemplate, string bodyData, string bodyGeneral, string targetIds, params string[] images)
+        public virtual int FeedAdd(FeedIcon icon, int uid, string userName, string titleTemplate, string titleData, string bodyTemplate, string bodyData, string bodyGeneral, string targetIds, params string[] images)
         {
             var args = new Dictionary<string, string>
                            {
@@ -832,7 +832,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="limit">数量限制</param>
         /// <returns></returns>
-        public UcFeeds FeedGet(int limit)
+        public virtual UcFeeds FeedGet(int limit)
         {
             var args = new Dictionary<string, string>
                            {
@@ -847,7 +847,7 @@ namespace DS.Web.UCenter.Client
         /// 得到应用列表
         /// </summary>
         /// <returns></returns>
-        public UcApps AppList()
+        public virtual UcApps AppList()
         {
             var args = new Dictionary<string, string>();
             return new UcApps(SendArgs(args, UcAppModelName.ModelName, UcAppModelName.ActionList));
@@ -863,7 +863,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="message">内容</param>
         /// <param name="uids">Uid</param>
         /// <returns></returns>
-        public UcMailQueue MailQueue(string subject, string message,params int[] uids)
+        public virtual UcMailQueue MailQueue(string subject, string message,params int[] uids)
         {
             return MailQueue(subject, message, "", "gbk", false, 1, uids, new string[0]);
         }
@@ -875,7 +875,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="message">内容</param>
         /// <param name="emails">目标email</param>
         /// <returns></returns>
-        public UcMailQueue MailQueue(string subject, string message, params string[] emails)
+        public virtual UcMailQueue MailQueue(string subject, string message, params string[] emails)
         {
             return MailQueue(subject, message, "", "gbk", false, 1, new int[0], emails);
         }
@@ -888,7 +888,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uids">Uid</param>
         /// <param name="emails">目标email</param>
         /// <returns></returns>
-        public UcMailQueue MailQueue(string subject, string message, int[] uids, string[] emails)
+        public virtual UcMailQueue MailQueue(string subject, string message, int[] uids, string[] emails)
         {
             return MailQueue(subject, message, "", "gbk", false, 1, uids, emails);
         }
@@ -905,7 +905,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="uids">Uid</param>
         /// <param name="emails">目标email</param>
         /// <returns></returns>
-        public UcMailQueue MailQueue(string subject,string message,string fromMail,string charset,bool htmlOn,int level,int[] uids,string[] emails)
+        public virtual UcMailQueue MailQueue(string subject,string message,string fromMail,string charset,bool htmlOn,int level,int[] uids,string[] emails)
         {
             var args = new Dictionary<string, string>
                            {
@@ -922,7 +922,12 @@ namespace DS.Web.UCenter.Client
         }
         #endregion
         #region 函数
-        private string getFlashPlayerCode(string movie)
+        /// <summary>
+        /// 生成网页中的html片段
+        /// </summary>
+        /// <param name="movie">url</param>
+        /// <returns>html片段</returns>
+        protected string getFlashPlayerCode(string movie)
         {
             var sb = new StringBuilder(1024);//815
             sb
@@ -945,7 +950,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="data">数据</param>
         /// <returns></returns>
-        private string[] intToString(int[] data)
+        protected string[] intToString(int[] data)
         {
             var result = new string[data.Length];
             for (var k = 0; k < data.Length; k++)
@@ -955,14 +960,14 @@ namespace DS.Web.UCenter.Client
             return result;
         }
 
- 
+
         /// <summary>
         /// 添加数组
         /// </summary>
         /// <param name="args">参数结合</param>
         /// <param name="key">Key</param>
         /// <param name="value">Value</param>
-        private void addArray(IDictionary<string, string> args, string key, IEnumerable<int> value)
+        protected void addArray(IDictionary<string, string> args, string key, IEnumerable<int> value)
         {
             var index = 0;
             foreach (var v in value)
@@ -977,7 +982,7 @@ namespace DS.Web.UCenter.Client
         /// <param name="args">参数结合</param>
         /// <param name="key">Key</param>
         /// <param name="value">Value</param>
-        private void addArray(IDictionary<string, string> args, string key, IEnumerable<string> value)
+        protected void addArray(IDictionary<string, string> args, string key, IEnumerable<string> value)
         {
             var index = 0;
             foreach (var v in value)
@@ -991,7 +996,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="input">判断为true的条件：大于0，或者为非空、非"false"的字符串</param>
         /// <returns></returns>
-        private bool toBool(string input)
+        protected bool toBool(string input)
         {
             if ("false".Equals(input, StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(input)) return false;
             int result;
@@ -1007,7 +1012,7 @@ namespace DS.Web.UCenter.Client
         /// </summary>
         /// <param name="input">原数据</param>
         /// <returns></returns>
-        private int toInt(string input)
+        protected int toInt(string input)
         {
             int result;
             int.TryParse(input, out result);
