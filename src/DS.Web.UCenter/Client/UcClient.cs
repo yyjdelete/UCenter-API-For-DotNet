@@ -987,7 +987,7 @@ namespace DS.Web.UCenter.Client
             var index = 0;
             foreach (var v in value)
             {
-                args.Add(string.Format("{0}[{1}]", key, index++), v);
+                args.Add(string.Format("{0}[{1}]", key, (index++).ToString()), v);
             }
         }
 
