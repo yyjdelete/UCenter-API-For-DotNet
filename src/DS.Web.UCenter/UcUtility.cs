@@ -466,6 +466,16 @@ namespace DS.Web.UCenter
             return sb.ToString();
         }
 
+        /// <summary>
+        /// (测试)PhpUrl解码
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <returns></returns>
+        public static string PhpUrlDecode(string str)
+        {
+            return Uri.UnescapeDataString(str);
+        }
+
         #endregion
     }
 
