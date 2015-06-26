@@ -180,16 +180,8 @@ namespace DS.Web.UCenter.Client
             var encoding = UcConfig.UcEncoding;
             using (var newStream = request.GetRequestStream())
             {
-                var dataChars = data.ToCharArray();
-                const int len = 128;
-                byte[] bytes = new byte[encoding.GetMaxByteCount(len)];
-                int strLen;
-                for (int i = dataChars.Length, j = 0; j > 0; i -= strLen, j += strLen)
-                {
-                    strLen = Math.Min(len, i);
-                    int bytesLen = encoding.GetBytes(dataChars, i, strLen, bytes, 0);
-                    newStream.Write(bytes, 0, bytesLen);
-                }
+                byte[] bytes = encoding.GetBytes(data);
+                newStream.Write(bytes, 0, bytes.Length);
             }
 
             return request;
