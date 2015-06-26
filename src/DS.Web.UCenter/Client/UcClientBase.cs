@@ -151,7 +151,7 @@ namespace DS.Web.UCenter.Client
             var request = (HttpWebRequest)WebRequest.Create(uri);
             var ua = GetUserAgent();
             if (ua != null)
-                request.Headers[HttpRequestHeader.UserAgent] = ua;
+                request.UserAgent = ua;
             request.Headers.Add(HttpRequestHeader.AcceptLanguage, "zh-cn");
             request.ServicePoint.Expect100Continue = false;
             return request;
