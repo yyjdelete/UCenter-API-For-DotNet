@@ -152,7 +152,7 @@ namespace DS.Web.UCenter.Client
         private HttpWebRequest CreateHttpWebRequest(Uri uri)
         {
             var request = (HttpWebRequest)WebRequest.Create(uri);
-            request.UserAgent = GetUserAgent();
+            request.Headers[HttpRequestHeader.UserAgent] = GetUserAgent();
             request.Headers.Add(HttpRequestHeader.AcceptLanguage, "zh-cn");
             request.ServicePoint.Expect100Continue = false;
             return request;
@@ -173,9 +173,15 @@ namespace DS.Web.UCenter.Client
             var encoding = UcConfig.UcEncoding;
             using (var newStream = request.GetRequestStream())
             {
-                using (var sr = new StreamWriter(newStream, encoding))
+                var dataChars = data.ToCharArray();
+                const int len = 128;
+                byte[] bytes = new byte[encoding.GetMaxByteCount(len)];
+                int strLen;
+                for (int i = dataChars.Length, j = 0; j > 0; i -= strLen, j += strLen)
                 {
-                    sr.Write(data);
+                    strLen = Math.Min(len, i);
+                    int bytesLen = encoding.GetBytes(dataChars, i, strLen, bytes, 0);
+                    newStream.Write(bytes, 0, bytesLen);
                 }
             }
 
