@@ -725,7 +725,7 @@ namespace DS.Web.UCenter.Client
             var movie = UcConfig.UcApi + "images/camera.swf?inajax=1&appid=" + UcConfig.UcAppid +
                 "&input=" + input +
                 //此处是返给html片段给请求发起者, 客户端由同一浏览器进行请求, 而不是由服务端代理, 故用原始值进行处理
-                "&agent=" + UcUtility.Md5(UcUtility.GetUserAgent()) +
+                "&agent=" + UcUtility.Md5(GetActualUserAgent()) +
                 "&ucapi=" + UcUtility.PhpUrlEncode(UcConfig.UcApi.Replace("http://", "")) +
                 "&avatartype=" + type.ToString().ToLower();
             return getFlashPlayerCode(movie);
