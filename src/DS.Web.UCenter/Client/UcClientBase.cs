@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Text;
 
 namespace DS.Web.UCenter.Client
@@ -148,7 +149,9 @@ namespace DS.Web.UCenter.Client
         private HttpWebRequest CreateHttpWebRequest(Uri uri)
         {
             var request = (HttpWebRequest)WebRequest.Create(uri);
-            request.Headers[HttpRequestHeader.UserAgent] = GetUserAgent();
+            var ua = GetUserAgent();
+            if (ua != null)
+                request.Headers[HttpRequestHeader.UserAgent] = ua;
             request.Headers.Add(HttpRequestHeader.AcceptLanguage, "zh-cn");
             request.ServicePoint.Expect100Continue = false;
             return request;
@@ -195,10 +198,25 @@ namespace DS.Web.UCenter.Client
         }
 
         /// <summary>
-        /// 得到 UserAgent 字符串
+        /// 默认UserAgent
+        /// </summary>
+        protected static readonly string DEF_UA = "Mozilla/4.0 (compatible;MSIE6.0) UcClient/" +
+            typeof(UcClientBase).Assembly.GetName().Version.ToString();
+
+        /// <summary>
+        /// 得到用于转发的 UserAgent 字符串
         /// </summary>
         /// <returns></returns>
         protected virtual string GetUserAgent()
+        {
+            return GetActualUserAgent() ?? DEF_UA;
+        }
+
+        /// <summary>
+        /// 得到实际上的 UserAgent 字符串
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetActualUserAgent()
         {
             return UcUtility.GetUserAgent();
         }

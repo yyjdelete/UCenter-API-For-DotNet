@@ -272,7 +272,7 @@ namespace DS.Web.UCenter
         public static string GetUserAgent()
         {
             //TODO: 在UA不满足条件时不使用UA
-            return ((HttpContext.Current != null) ? HttpContext.Current.Request.ServerVariables["Http_User_Agent"] : null) ?? "Mozilla/4.0 (compatible;MSIE6.0)";
+            return (HttpContext.Current != null) ? HttpContext.Current.Request.ServerVariables["Http_User_Agent"] : null;
         }
 
         /// <summary>
@@ -338,7 +338,7 @@ namespace DS.Web.UCenter
         /// <returns>计算好的字符串(小写)</returns>
         public static string Md5(string str)
         {
-            return Md5Raw(Encode.GetBytes(str));
+            return Md5Raw(Encode.GetBytes(str ?? ""));
         }
 
         /// <summary>
