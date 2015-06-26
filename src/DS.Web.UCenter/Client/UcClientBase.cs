@@ -320,7 +320,9 @@ namespace DS.Web.UCenter.Client
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                request.Headers.TryAddWithoutValidation("User-Agent", ucClient.GetUserAgent());
+                var ua = ucClient.GetUserAgent();
+                if (ua != null)
+                    request.Headers.TryAddWithoutValidation("User-Agent", ua);
                 return base.SendAsync(request, cancellationToken);
             }
         }
