@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 #if NET4_5
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 #endif
 
@@ -208,14 +209,20 @@ namespace DS.Web.UCenter.Client
         }
 
 #if NET4_5
-        private static HttpClient httpClient;
+        private HttpClient httpClient;
         private HttpClient HttpClient
         {
             get
             {
                 if (httpClient == null)
                 {
-                    httpClient = new HttpClient();
+                    lock(this)
+                    {
+                        if (httpClient == null)
+                        {
+                            httpClient = new HttpClient(new UcHttpClientHandler(this));
+                        }
+                    }
                 }
                 return httpClient;
             }
@@ -259,7 +266,7 @@ namespace DS.Web.UCenter.Client
         {
             return HttpClient.PostAsync(GetUrl(),
                 new StringContent(data, UcConfig.UcEncoding,
-                "application/x-www-form-urlencoded"));
+                   "application/x-www-form-urlencoded"));
         }
 
         private Task<HttpResponseMessage> getGetRequestAsync(Uri uri)
@@ -276,6 +283,24 @@ namespace DS.Web.UCenter.Client
             catch
             {
                 return "";
+            }
+        }
+
+        private class UcHttpClientHandler : HttpClientHandler
+        {
+            private UcClientBase ucClient;
+
+            public UcHttpClientHandler(UcClientBase ucClient)
+            {
+                this.ucClient = ucClient;
+            }
+
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                request.Headers.TryAddWithoutValidation("User-Agent", ucClient.GetUserAgent());
+                return base.SendAsync(request, cancellationToken);
             }
         }
 #endif
