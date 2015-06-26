@@ -272,7 +272,7 @@ namespace DS.Web.UCenter
         public static string GetUserAgent()
         {
             //TODO: 在UA不满足条件时不使用UA
-            return ((HttpContext.Current != null) ? HttpContext.Current.Request.ServerVariables["Http_User_Agent"] : null) ?? "Mozilla/4.0(compatible;MSIE6.0;)";
+            return ((HttpContext.Current != null) ? HttpContext.Current.Request.ServerVariables["Http_User_Agent"] : null) ?? "Mozilla/4.0 (compatible;MSIE6.0)";
         }
 
         /// <summary>
